@@ -1,7 +1,10 @@
 package extract
 
 import (
+	"encoding/xml"
 	"fmt"
+
+	// "xml"
 
 	"github.com/asaskevich/govalidator"
 	cf "github.com/iarsham/cf-forbidden"
@@ -22,16 +25,17 @@ func FetchRSS(url string) (string, error) {
 	}
 	client, err := cf.New()
 	if err != nil {
-		errorMessage := fmt.Errorf("error - %v", err)
+		errorMessage := fmt.Errorf("error - Client creation %v", err)
 		return "", errorMessage
 	}
 	response, err := client.Get(url, cf.M{})
 	if err != nil {
-		errorMessage := fmt.Errorf("error - %v", err)
+		errorMessage := fmt.Errorf("error - Client GET Request %v", err)
 		return "", errorMessage
 	}
 	body := response.Body
-	fmt.Println(body)
+	d, _ := xml.Marshal(body)
+	fmt.Println(d)
 
 	return body, nil
 }
