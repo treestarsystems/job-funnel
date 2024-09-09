@@ -7,24 +7,13 @@ import (
 	cf "github.com/iarsham/cf-forbidden"
 )
 
-// type ItemRSS struct {
-// 	XMLName     xml.Name `xml:"item"`
-// 	Title       string   `xml:"title"`
-// 	Link        string   `xml:"link"`
-// 	Description string   `xml:"description"`
-// }
+type ItemRSS struct {
+	XMLName string `xml:"item"`
+	Title   string `xml:"title"`
+	Link    string `xml:"link"`
+}
 
-// type ChannelRSS struct {
-// 	XMLName xml.Name  `xml:"channel"`
-// 	Items   []ItemRSS `xml:"item"`
-// }
-
-// type DocumentRSS struct {
-// 	XMLName xml.Name   `xml:"rss"`
-// 	Channel ChannelRSS `xml:"channel"`
-// }
-
-// fetchRSS fetches the RSS feed from the given URL and returns the response body.
+// FetchRSS fetches the RSS feed from the given URL and returns the response body.
 func FetchRSS(url string) (string, error) {
 	u := govalidator.IsURL(url)
 	if !u {
