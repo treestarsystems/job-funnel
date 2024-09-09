@@ -3,6 +3,8 @@ package extract
 import (
 	"encoding/xml"
 	"fmt"
+	"io"
+	"strings"
 
 	// "xml"
 
@@ -34,8 +36,25 @@ func FetchRSS(url string) (string, error) {
 		return "", errorMessage
 	}
 	body := response.Body
-	d, _ := xml.Marshal(body)
-	fmt.Println(d)
+	// Convert the body string to an io.Reader
+	reader := strings.NewReader(body)
 
-	return body, nil
+	// Decode the XML
+	decoder := xml.NewDecoder(reader)
+	decoder.CharsetReader = func(charset string, input io.Reader) (io.Reader, error) {
+		return input, nil
+	}
+
+	var result interface{}
+	if err := decoder.Decode(&result); err != nil {
+		return "", fmt.Errorf("error - XML Decoding %v", err)
+	}
+
+	// Marshal the decoded XML back to a string (optional)
+	decodedXML, err := xml.Marshal(result)
+	if err != nil {
+		return "", fmt.Errorf("error - XML Marshalling %v", err)
+	}
+
+	return string(decodedXML), nil
 }
