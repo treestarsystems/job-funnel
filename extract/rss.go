@@ -42,8 +42,7 @@ func FetchRSS(url string) (string, error) {
 		return "", errorMessage
 	}
 	body := response.Body
-	headers := response.Headers
-	fmt.Println(body, headers)
+	fmt.Println(body)
 
 	return body, nil
 }
