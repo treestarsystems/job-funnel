@@ -33,9 +33,10 @@ func FetchRSS(url string) (string, error) {
 	}
 	client, err := cf.New()
 	if err != nil {
-		fmt.Print(err)
+		errorMessage := fmt.Errorf("error - %v", err)
+		return "", errorMessage
 	}
-	response, err := client.Get(url, cf.M{"Authorization": ""})
+	response, err := client.Get(url, cf.M{})
 	if err != nil {
 		errorMessage := fmt.Errorf("error - %v", err)
 		return "", errorMessage
