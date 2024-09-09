@@ -1,42 +1,48 @@
 package extract
 
 import (
-	"encoding/xml"
-	"io"
-	"net/http"
+	"fmt"
+
+	"github.com/asaskevich/govalidator"
+	cf "github.com/iarsham/cf-forbidden"
 )
 
-type ItemRSS struct {
-	XMLName     xml.Name `xml:"item"`
-	Title       string   `xml:"title"`
-	Link        string   `xml:"link"`
-	Description string   `xml:"description"`
-}
+// type ItemRSS struct {
+// 	XMLName     xml.Name `xml:"item"`
+// 	Title       string   `xml:"title"`
+// 	Link        string   `xml:"link"`
+// 	Description string   `xml:"description"`
+// }
 
-type ChannelRSS struct {
-	XMLName xml.Name  `xml:"channel"`
-	Items   []ItemRSS `xml:"item"`
-}
+// type ChannelRSS struct {
+// 	XMLName xml.Name  `xml:"channel"`
+// 	Items   []ItemRSS `xml:"item"`
+// }
 
-type DocumentRSS struct {
-	XMLName xml.Name   `xml:"rss"`
-	Channel ChannelRSS `xml:"channel"`
-}
+// type DocumentRSS struct {
+// 	XMLName xml.Name   `xml:"rss"`
+// 	Channel ChannelRSS `xml:"channel"`
+// }
 
-func Fetch(url string) (DocumentRSS, error) {
-	resp, err := http.Get(url)
-	if err != nil {
-		return DocumentRSS{}, err
+// fetchRSS fetches the RSS feed from the given URL and returns the response body.
+func FetchRSS(url string) (string, error) {
+	u := govalidator.IsURL(url)
+	if !u {
+		errorMessage := fmt.Errorf("error - Invalid URL: %s", url)
+		return "", errorMessage
 	}
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
+	client, err := cf.New()
 	if err != nil {
-		return DocumentRSS{}, err
+		fmt.Print(err)
 	}
-	var doc DocumentRSS
-	err = xml.Unmarshal(body, &doc)
+	response, err := client.Get(url, cf.M{"Authorization": ""})
 	if err != nil {
-		return DocumentRSS{}, err
+		errorMessage := fmt.Errorf("error - %v", err)
+		return "", errorMessage
 	}
-	return doc, nil
+	body := response.Body
+	headers := response.Headers
+	fmt.Println(body, headers)
+
+	return body, nil
 }
