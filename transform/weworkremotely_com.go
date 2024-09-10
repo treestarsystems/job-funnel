@@ -6,16 +6,9 @@ import (
 	"strings"
 )
 
-func ParseJobRssWeworkremotely_com(body string) (JobRssWeworkremotely_com, error) {
-	reader := strings.NewReader(body)
-	decoder := xml.NewDecoder(reader)
-
-	var job JobRssWeworkremotely_com
-	err := decoder.Decode(&job)
-	if err != nil {
-		return job, err
-	}
-	return job, nil
+type BuilderWeworkremotely_com interface {
+	FetchRSSWeworkremotely_com(url string) (JobRssWeworkremotely_com, error)
+	ParseJobRssWeworkremotely_com(body string) (JobRssWeworkremotely_com, error)
 }
 
 func FetchRSSWeworkremotely_com(url string) (JobRssWeworkremotely_com, error) {
@@ -28,6 +21,18 @@ func FetchRSSWeworkremotely_com(url string) (JobRssWeworkremotely_com, error) {
 		return JobRssWeworkremotely_com{}, err
 	}
 	return parsed, nil
+}
+
+func ParseJobRssWeworkremotely_com(body string) (JobRssWeworkremotely_com, error) {
+	reader := strings.NewReader(body)
+	decoder := xml.NewDecoder(reader)
+
+	var job JobRssWeworkremotely_com
+	err := decoder.Decode(&job)
+	if err != nil {
+		return job, err
+	}
+	return job, nil
 }
 
 // func (j *JobRssWeworkremotely_com) Transform() []Job {
