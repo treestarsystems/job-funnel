@@ -1,14 +1,16 @@
 package main
 
 import (
-	"job-funnel/extract"
+	"fmt"
+	"job-funnel/transform"
 )
 
 func main() {
-	extract.FetchRSS("https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss")
-	// rssData, err := extract.FetchRSS("https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// fmt.Println(rssData)
+	data, err := transform.FetchRSSWeworkremotely_com("https://weworkremotely.com/remote-jobs.rss")
+	if err != nil {
+		fmt.Println(err)
+	}
+	for _, item := range data.Channel.Item {
+		fmt.Printf("%s\n", item.Title)
+	}
 }
