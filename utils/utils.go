@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"reflect"
 	"regexp"
 )
 
@@ -34,26 +35,26 @@ func ExtractCityOrState(text string) []string {
 // Extracts programming languages from the given string.
 func ExtractProgrammingLanguages(text string) []string {
 	// Define a regex pattern to match common programming languages
-	re := regexp.MustCompile(`(?i)\b(java|python|javascript|c\+\+|c#|ruby|go|swift|kotlin|php|typescript|rust|scala|perl|haskell|r|objective-c|dart|lua|matlab|groovy|shell|powershell|visual basic|assembly|cobol|fortran|pascal|ada|lisp|scheme|prolog|erlang|elixir|f#|ocaml|clojure|julia|vhdl|verilog|solidity|sql|pl/sql|t-sql|sas|spss|stata|racket|smalltalk|abap|actionscript|apex|awk|bash|batch|bc|brainfuck|caml|chapel|clean|clipper|cmake|cobol|coffeescript|crystal|curl|d|dcl|dylan|eiffel|emacs lisp|euphoria|forth|gams|gap|gdl|gdscript|gml|gnuplot|idl|io|j|jscript|labview|ladder logic|livecode|logo|m4|max/msp|mercury|ml|modula-2|mumps|natural|nim|nxc|opencl|openedge abl|openscad|p4|pike|pl/i|postscript|pure data|q|racket|raku|rexx|ring|s-lang|sml|spark|spin|tcl|turing|vala|vbscript|vim script|wolfram|x10|xbase|xojo|zig)\b`)
+	re := regexp.MustCompile(`(?i)\b(java|python|javascript|c\+\+|c#|ruby|go|swift|kotlin|php|typescript|rust|scala|perl|haskell|r|objective-c|dart|lua|matlab|groovy|shell|powershell|visual.*basic|assembly|cobol|fortran|pascal|ada|lisp|scheme|prolog|erlang|elixir|f#|ocaml|clojure|julia|vhdl|verilog|solidity|sql|pl/sql|t-sql|sas|spss|stata|racket|smalltalk|abap|actionscript|apex|awk|bash|batch|bc|brainfuck|caml|chapel|clean|clipper|cmake|cobol|coffeescript|crystal|curl|dcl|dylan|eiffel|emacs.*lisp|euphoria|forth|gams|gap|gdl|gdscript|gml|gnuplot|idl|jscript|labview|ladder.*logic|livecode|logo|m4|max/msp|mercury|ml|modula-2|mumps|natural|nim|nxc|opencl|openedge.*abl|openscad|p4|pike|pl/i|postscript|pure.*data|racket|raku|rexx|ring|s-lang|sml|spark|spin|tcl|turing|vala|vbscript|vim.*script|wolfram|x10|xbase|xojo|zig)\b`)
 
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
 	if len(matches) == 0 {
 		return []string{"programming languages not found"}
 	}
-	return matches
+	return Deduplicate(matches).([]string)
 }
 
 func ExtractCommonFrameworks(text string) []string {
 	// Define a regex pattern to match common coding frameworks
-	re := regexp.MustCompile(`(?i)\b(react|angular|vue\.js|django|flask|spring|express|ruby.*on.*rails|ruby|rails|laravel|asp\.net|\.net|dotnet|symfony|svelte|ember\.js|backbone\.js|meteor|next\.js|nuxt\.js|gatsby|bootstrap|foundation|tailwind css|jquery|redux|nestjs|koa|fastapi|phoenix|play|struts|blade|gin|beego|echo|fiber|rocket|actix|tornado|bottle|pyramid|cherrypy|hug|falcon|sanic|fastify|hapi|loopback|feathers|adonisjs|sails|aurelia|alpine\.js|stimulus|litelement|stencil|node.*js|nest.*js)\b`)
+	re := regexp.MustCompile(`(?i)\b(react|angular|vue.*js|django|flask|spring|express|ruby.*on.*rails|ruby|rails|laravel|asp.*net|\.net|dotnet|symfony|svelte|ember.*js|backbone.*js|meteor|next.*js|nuxt.*js|gatsby|bootstrap|foundation|tailwind.*css|jquery|redux|nestjs|koa|fastapi|phoenix|play|struts|blade|gin|beego|echo|fiber|rocket|actix|tornado|bottle|pyramid|cherrypy|hug|falcon|sanic|fastify|hapi|loopback|feathers|adonisjs|sails|aurelia|alpine.*js|stimulus|litelement|stencil|node.*js|nest.*js)\b`)
 
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
 	if len(matches) == 0 {
 		return []string{"coding frameworks not found"}
 	}
-	return matches
+	return Deduplicate(matches).([]string)
 }
 
 // Extracts database types from the given string in a case-insensitive manner.
@@ -66,20 +67,20 @@ func ExtractDatabaseTypes(text string) []string {
 	if len(matches) == 0 {
 		return []string{"database types not found"}
 	}
-	return matches
+	return Deduplicate(matches).([]string)
 }
 
 // Extracts database types from the given string in a case-insensitive manner.
 func ExtractAWSServiceNames(text string) []string {
 	// Define a regex pattern to match common database types (case-insensitive)
-	re := regexp.MustCompile(`(?i)\b(EC2|S3|RDS|Lambda|DynamoDB|ECS|EKS|CloudFront|Route 53|VPC|IAM|CloudWatch|SNS|SQS|Redshift|Glue|Athena|Kinesis|Elastic Beanstalk|CloudFormation|Elastic Load Balancing|SageMaker|Fargate|Aurora|Elasticache|Kinesis|Step Functions|AppSync|CodePipeline|CodeBuild|CodeDeploy|CodeCommit|Amplify|Lightsail|Batch|OpsWorks|CloudTrail|Cloud9|CloudHSM|Direct Connect|Elastic Transcoder|GuardDuty|Inspector|Macie|Organizations|Secrets Manager|Security Hub|Shield|WAF|WorkSpaces)\b`)
+	re := regexp.MustCompile(`(?i)\b(EC2|S3|RDS|Lambda|DynamoDB|ECS|EKS|CloudFront|Route.*53|VPC|IAM|CloudWatch|SNS|SQS|Redshift|Glue|Athena|Kinesis|Elastic.*Beanstalk|CloudFormation|Elastic.*Load.*Balancing|SageMaker|Fargate|Aurora|Elasticache|Kinesis|Step.*Functions|AppSync|CodePipeline|CodeBuild|CodeDeploy|CodeCommit|Amplify|Lightsail|Batch|OpsWorks|CloudTrail|Cloud9|CloudHSM|Direct.*Connect|Elastic.*Transcoder|GuardDuty|Inspector|Macie|Organizations|Secrets.*Manager|Security.*Hub|Shield|WAF|WorkSpaces)\b`)
 
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
 	if len(matches) == 0 {
 		return []string{"database types not found"}
 	}
-	return matches
+	return Deduplicate(matches).([]string)
 }
 
 func RemoveHTMLTags(text string) string {
@@ -110,20 +111,44 @@ func ExtractNonImageLinks(text string) []string {
 		}
 	}
 
-	// Filter out image URLs and deduplicate
-	linkMap := make(map[string]bool)
+	// Filter out image URLs
 	var nonImageLinks []string
 	for _, link := range urlMatches {
 		if !imageURLs[link] {
-			if !linkMap[link] {
-				linkMap[link] = true
-				nonImageLinks = append(nonImageLinks, link)
-			}
+			nonImageLinks = append(nonImageLinks, link)
 		}
 	}
 
-	if len(nonImageLinks) == 0 {
+	// Deduplicate the non-image links
+	dedupedLinks := Deduplicate(nonImageLinks).([]string)
+
+	if len(dedupedLinks) == 0 {
 		return []string{"no links found"}
 	}
-	return nonImageLinks
+	return dedupedLinks
+}
+
+// Deduplicates a slice of any type.
+func Deduplicate(slice interface{}) interface{} {
+	// Use reflection to get the value and type of the input slice
+	v := reflect.ValueOf(slice)
+	if v.Kind() != reflect.Slice {
+		// panic("Deduplicate: input is not a slice")
+		return []string{"input is not a slice"}
+	}
+
+	// Create a map to track unique elements
+	uniqueMap := make(map[interface{}]bool)
+	uniqueSlice := reflect.MakeSlice(v.Type(), 0, v.Len())
+
+	// Iterate over the input slice and add unique elements to the result slice
+	for i := 0; i < v.Len(); i++ {
+		elem := v.Index(i).Interface()
+		if !uniqueMap[elem] {
+			uniqueMap[elem] = true
+			uniqueSlice = reflect.Append(uniqueSlice, v.Index(i))
+		}
+	}
+
+	return uniqueSlice.Interface()
 }
