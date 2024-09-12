@@ -2,7 +2,8 @@ package transform
 
 import "encoding/xml"
 
-type SharedStructJobs struct {
+// SharedStructJobs contains common job information from each job listing.
+type JobPost struct {
 	JobTitle       string   `json:"title,omitempty"`
 	Description    string   `json:"description,omitempty"`
 	CodingLanguage []string `json:"codinglanguage,omitempty"`

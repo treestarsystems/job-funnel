@@ -5,8 +5,8 @@ import (
 	"regexp"
 )
 
-// Extracts all salary information from the given string.
-func ExtractSalaries(text string) []string {
+// Parses all salary information from the given string.
+func ParseSalaries(text string) []string {
 	// Define a regex pattern to match salary ranges and amounts
 	re := regexp.MustCompile(`\$\d{1,3}(,\d{3})*(\.\d{2})?(\s*-\s*\$\d{1,3}(,\d{3})*(\.\d{2})?)?`)
 
@@ -18,9 +18,9 @@ func ExtractSalaries(text string) []string {
 	return matches
 }
 
-// Extracts city or state information from the given string.
+// Parses city or state information from the given string.
 // This can be done better: https://devcodef1.com/news/1018489/regex-code-for-extracting-city-state-and-zip-from-address-string
-func ExtractCityOrState(text string) []string {
+func ParseCityOrState(text string) []string {
 	// Define a regex pattern to match common city or state patterns
 	re := regexp.MustCompile(`\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*(?:,\s*[A-Z]{2})?\b`)
 
@@ -32,8 +32,8 @@ func ExtractCityOrState(text string) []string {
 	return matches
 }
 
-// Extracts programming languages from the given string.
-func ExtractProgrammingLanguages(text string) []string {
+// Parses programming languages from the given string.
+func ParseProgrammingLanguages(text string) []string {
 	// Define a regex pattern to match common programming languages
 	re := regexp.MustCompile(`(?i)\b(java|python|javascript|c\+\+|c#|ruby|go|swift|kotlin|php|typescript|rust|scala|perl|haskell|r|objective-c|dart|lua|matlab|groovy|shell|powershell|visual.*basic|assembly|cobol|fortran|pascal|ada|lisp|scheme|prolog|erlang|elixir|f#|ocaml|clojure|julia|vhdl|verilog|solidity|sql|pl/sql|t-sql|sas|spss|stata|racket|smalltalk|abap|actionscript|apex|awk|bash|batch|bc|brainfuck|caml|chapel|clean|clipper|cmake|cobol|coffeescript|crystal|curl|dcl|dylan|eiffel|emacs.*lisp|euphoria|forth|gams|gap|gdl|gdscript|gml|gnuplot|idl|jscript|labview|ladder.*logic|livecode|logo|m4|max/msp|mercury|ml|modula-2|mumps|natural|nim|nxc|opencl|openedge.*abl|openscad|p4|pike|pl/i|postscript|pure.*data|racket|raku|rexx|ring|s-lang|sml|spark|spin|tcl|turing|vala|vbscript|vim.*script|wolfram|x10|xbase|xojo|zig)\b`)
 
@@ -42,10 +42,11 @@ func ExtractProgrammingLanguages(text string) []string {
 	if len(matches) == 0 {
 		return []string{"programming languages not found"}
 	}
-	return Deduplicate(matches).([]string)
+	return DeduplicateSliceContents(matches).([]string)
 }
 
-func ExtractCommonFrameworks(text string) []string {
+// Parses database types from the given string in a case-insensitive manner.
+func ParseCommonFrameworks(text string) []string {
 	// Define a regex pattern to match common coding frameworks
 	re := regexp.MustCompile(`(?i)\b(react|angular|vue.*js|django|flask|spring|express|ruby.*on.*rails|ruby|rails|laravel|asp.*net|\.net|dotnet|symfony|svelte|ember.*js|backbone.*js|meteor|next.*js|nuxt.*js|gatsby|bootstrap|foundation|tailwind.*css|jquery|redux|nestjs|koa|fastapi|phoenix|play|struts|blade|gin|beego|echo|fiber|rocket|actix|tornado|bottle|pyramid|cherrypy|hug|falcon|sanic|fastify|hapi|loopback|feathers|adonisjs|sails|aurelia|alpine.*js|stimulus|litelement|stencil|node.*js|nest.*js)\b`)
 
@@ -54,11 +55,11 @@ func ExtractCommonFrameworks(text string) []string {
 	if len(matches) == 0 {
 		return []string{"coding frameworks not found"}
 	}
-	return Deduplicate(matches).([]string)
+	return DeduplicateSliceContents(matches).([]string)
 }
 
-// Extracts database types from the given string in a case-insensitive manner.
-func ExtractDatabaseTypes(text string) []string {
+// Parses database types from the given string in a case-insensitive manner.
+func ParseDatabaseTypes(text string) []string {
 	// Define a regex pattern to match common database types (case-insensitive)
 	re := regexp.MustCompile(`(?i)\b(no.*sql|ms.*sql|mysql|postgre.*sql|sqlite|mongodb|oracle|sql.*server|maria.*db|redis|cassandra|elasticsearch|firebase|dynamo.*db|couch.*db|neo4j|hbase|memcached|couchbase|db2|teradata|snowflake|bigquery|amazon.*aurora|amazon.*redshift|google.*cloud.*spanner|microsoft.*access|informix|ingres|interbase|firebird|sybase|volt.*db|greenplum)\b`)
 
@@ -67,11 +68,11 @@ func ExtractDatabaseTypes(text string) []string {
 	if len(matches) == 0 {
 		return []string{"database types not found"}
 	}
-	return Deduplicate(matches).([]string)
+	return DeduplicateSliceContents(matches).([]string)
 }
 
-// Extracts database types from the given string in a case-insensitive manner.
-func ExtractAWSServiceNames(text string) []string {
+// Parses database types from the given string in a case-insensitive manner.
+func ParseAWSServiceNames(text string) []string {
 	// Define a regex pattern to match common database types (case-insensitive)
 	re := regexp.MustCompile(`(?i)\b(ec2|s3|rds|lambda|dynamodb|ecs|eks|cloudfront|route.*53|vpc|iam|cloudwatch|sns|sqs|redshift|glue|athena|kinesis|elastic.*beanstalk|cloudformation|elastic.*load.*balancing|sagemaker|fargate|aurora|elasticache|kinesis|step.*functions|appsync|codepipeline|codebuild|codedeploy|codecommit|amplify|lightsail|batch|opsworks|cloudtrail|cloud9|cloudhsm|direct.*connect|elastic.*transcoder|guardduty|inspector|macie|organizations|secrets.*manager|security.*hub|shield|waf|workspaces)\b`)
 
@@ -80,9 +81,10 @@ func ExtractAWSServiceNames(text string) []string {
 	if len(matches) == 0 {
 		return []string{"database types not found"}
 	}
-	return Deduplicate(matches).([]string)
+	return DeduplicateSliceContents(matches).([]string)
 }
 
+// Removes all HTML tags from the given string.
 func RemoveHTMLTags(text string) string {
 	// Define a regex pattern to match HTML tags
 	re := regexp.MustCompile(`<[^>]*>`)
@@ -91,8 +93,8 @@ func RemoveHTMLTags(text string) string {
 	return cleanText
 }
 
-// Extracts web links that are not part of image tags from the given string and deduplicates them.
-func ExtractNonImageLinks(text string) []string {
+// Parses web links that are not part of image tags from the given string and deduplicates them.
+func ParseNonImageLinks(text string) []string {
 	// Define a regex pattern to match URLs
 	urlRe := regexp.MustCompile(`https?://[^\s]+`)
 	// Define a regex pattern to match image tags
@@ -120,7 +122,7 @@ func ExtractNonImageLinks(text string) []string {
 	}
 
 	// Deduplicate the non-image links
-	dedupedLinks := Deduplicate(nonImageLinks).([]string)
+	dedupedLinks := DeduplicateSliceContents(nonImageLinks).([]string)
 
 	if len(dedupedLinks) == 0 {
 		return []string{"no links found"}
@@ -129,11 +131,10 @@ func ExtractNonImageLinks(text string) []string {
 }
 
 // Deduplicates a slice of any type.
-func Deduplicate(slice interface{}) interface{} {
+func DeduplicateSliceContents(slice interface{}) interface{} {
 	// Use reflection to get the value and type of the input slice
 	v := reflect.ValueOf(slice)
 	if v.Kind() != reflect.Slice {
-		// panic("Deduplicate: input is not a slice")
 		return []string{"input is not a slice"}
 	}
 

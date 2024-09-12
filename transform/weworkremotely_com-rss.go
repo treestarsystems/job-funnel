@@ -3,27 +3,23 @@ package transform
 import (
 	"encoding/xml"
 	"job-funnel/extract"
+	"job-funnel/utils"
 	"strings"
 )
 
-type Weworkremotely_comRSSBuilder interface {
-	FetchRSSWeworkremotely_com(url string) (Weworkremotely_comRss, error)
-	ParseWeworkremotely_comRss(body string) (Weworkremotely_comRss, error)
-}
-
-func ProcessRSSWeworkremotely_com(url string) (Weworkremotely_comRss, error) {
-	body, err := extract.FetchRSS(url)
+func Weworkremotely_comProcessRss(url string) (Weworkremotely_comRss, error) {
+	body, err := extract.FetchRss(url)
 	if err != nil {
 		return Weworkremotely_comRss{}, err
 	}
-	parsedBody, err := ParseWeworkremotely_comRss(body)
+	parsedBody, err := Weworkremotely_comParseRss(body)
 	if err != nil {
 		return Weworkremotely_comRss{}, err
 	}
 	return parsedBody, nil
 }
 
-func ParseWeworkremotely_comRss(rssXMLBody string) (Weworkremotely_comRss, error) {
+func Weworkremotely_comParseRss(rssXMLBody string) (Weworkremotely_comRss, error) {
 	reader := strings.NewReader(rssXMLBody)
 	decoder := xml.NewDecoder(reader)
 	var job Weworkremotely_comRss
@@ -34,19 +30,32 @@ func ParseWeworkremotely_comRss(rssXMLBody string) (Weworkremotely_comRss, error
 	return job, nil
 }
 
-// func (j *Weworkremotely_comRss) Transform() []Job {
-// 	var jobs []Job
-// 	for _, item := range j.Channel.Item {
-// 		job := Job{
-// 			Title:       item.Title,
-// 			Company:     item.Category,
-// 			Location:    item.Region,
-// 			Link:        item.Link,
-// 			Description: item.Description,
-// 			PostedAt:    item.PubDate,
-// 			ExpiresAt:   item.ExpiresAt,
-// 		}
-// 		jobs = append(jobs, job)
-// 	}
-// 	return jobs
-// }
+// ProcessJobPosts processes job posts from the given Rss feed URL and returns a slice of JobPost.
+func Weworkremotely_comCreateJobPostsRss(feedURL string) ([]JobPost, error) {
+	data, err := Weworkremotely_comProcessRss(feedURL)
+	if err != nil {
+		return nil, err
+	}
+
+	var jobs []JobPost
+	for _, item := range data.Channel.Item {
+		description := utils.RemoveHTMLTags(item.Description)
+		codingLanguages := utils.ParseProgrammingLanguages(description)
+		database := utils.ParseDatabaseTypes(description)
+		pay := utils.ParseSalaries(description)
+		links := utils.ParseNonImageLinks(description)
+		location := utils.ParseCityOrState(description)
+		job := JobPost{
+			JobTitle:       item.Title,
+			Description:    description,
+			CodingLanguage: codingLanguages,
+			Database:       database,
+			CompanyName:    "",
+			Pay:            pay,
+			Location:       location,
+			Links:          links,
+		}
+		jobs = append(jobs, job)
+	}
+	return jobs, nil
+}
