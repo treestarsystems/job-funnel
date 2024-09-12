@@ -6,28 +6,27 @@ import (
 	"strings"
 )
 
-type BuilderWeworkremotely_com interface {
-	FetchRSSWeworkremotely_com(url string) (JobRssWeworkremotely_com, error)
-	ParseJobRssWeworkremotely_com(body string) (JobRssWeworkremotely_com, error)
+type Weworkremotely_comRSSBuilder interface {
+	FetchRSSWeworkremotely_com(url string) (Weworkremotely_comRss, error)
+	ParseWeworkremotely_comRss(body string) (Weworkremotely_comRss, error)
 }
 
-func FetchRSSWeworkremotely_com(url string) (JobRssWeworkremotely_com, error) {
+func ProcessRSSWeworkremotely_com(url string) (Weworkremotely_comRss, error) {
 	body, err := extract.FetchRSS(url)
 	if err != nil {
-		return JobRssWeworkremotely_com{}, err
+		return Weworkremotely_comRss{}, err
 	}
-	parsed, err := ParseJobRssWeworkremotely_com(body)
+	parsedBody, err := ParseWeworkremotely_comRss(body)
 	if err != nil {
-		return JobRssWeworkremotely_com{}, err
+		return Weworkremotely_comRss{}, err
 	}
-	return parsed, nil
+	return parsedBody, nil
 }
 
-func ParseJobRssWeworkremotely_com(body string) (JobRssWeworkremotely_com, error) {
-	reader := strings.NewReader(body)
+func ParseWeworkremotely_comRss(rssXMLBody string) (Weworkremotely_comRss, error) {
+	reader := strings.NewReader(rssXMLBody)
 	decoder := xml.NewDecoder(reader)
-
-	var job JobRssWeworkremotely_com
+	var job Weworkremotely_comRss
 	err := decoder.Decode(&job)
 	if err != nil {
 		return job, err
@@ -35,7 +34,7 @@ func ParseJobRssWeworkremotely_com(body string) (JobRssWeworkremotely_com, error
 	return job, nil
 }
 
-// func (j *JobRssWeworkremotely_com) Transform() []Job {
+// func (j *Weworkremotely_comRss) Transform() []Job {
 // 	var jobs []Job
 // 	for _, item := range j.Channel.Item {
 // 		job := Job{

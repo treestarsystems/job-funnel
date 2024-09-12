@@ -2,7 +2,18 @@ package transform
 
 import "encoding/xml"
 
-type JobRssWeworkremotely_com struct {
+type SharedStructJobs struct {
+	JobTitle       string   `json:"title,omitempty"`
+	Description    string   `json:"description,omitempty"`
+	CodingLanguage []string `json:"codinglanguage,omitempty"`
+	Database       []string `json:"database,omitempty"`
+	CompanyName    string   `json:"companyname,omitempty"`
+	Pay            []string `json:"pay,omitempty"`
+	Location       []string `json:"location,omitempty"`
+	Links          []string `json:"link,omitempty"`
+}
+
+type Weworkremotely_comRss struct {
 	XMLName xml.Name `xml:"rss" json:"rss,omitempty"`
 	Text    string   `xml:",chardata" json:"text,omitempty"`
 	Version string   `xml:"version,attr" json:"version,omitempty"`
