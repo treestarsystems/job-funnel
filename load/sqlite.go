@@ -1,13 +1,12 @@
 package load
 
 import (
+	"job-funnel/transform"
 	"log"
 	"os"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-
-	"job-funnel/transform"
 )
 
 var DB *gorm.DB
