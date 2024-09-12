@@ -47,9 +47,9 @@ func main() {
 		description := utils.RemoveHTMLTags(item.Description)
 		codingLanguages := utils.ExtractProgrammingLanguages(description)
 		database := utils.ExtractDatabaseTypes(description)
-		pay := utils.ExtractSalaries(item.Description)
+		pay := utils.ExtractSalaries(description)
 		links := utils.ExtractNonImageLinks(description)
-		location := utils.ExtractCityOrState(item.Region)
+		location := utils.ExtractCityOrState(description)
 		job := transform.SharedStructJobs{
 			JobTitle:       item.Title,
 			Description:    description,
@@ -61,6 +61,7 @@ func main() {
 			Links:          links,
 		}
 		jobs = append(jobs, job)
-		fmt.Println(job.Location)
+		// fmt.Println(job.Location)
 	}
+	fmt.Println(jobs[0])
 }
