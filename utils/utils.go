@@ -73,7 +73,7 @@ func ExtractDatabaseTypes(text string) []string {
 // Extracts database types from the given string in a case-insensitive manner.
 func ExtractAWSServiceNames(text string) []string {
 	// Define a regex pattern to match common database types (case-insensitive)
-	re := regexp.MustCompile(`(?i)\b(EC2|S3|RDS|Lambda|DynamoDB|ECS|EKS|CloudFront|Route.*53|VPC|IAM|CloudWatch|SNS|SQS|Redshift|Glue|Athena|Kinesis|Elastic.*Beanstalk|CloudFormation|Elastic.*Load.*Balancing|SageMaker|Fargate|Aurora|Elasticache|Kinesis|Step.*Functions|AppSync|CodePipeline|CodeBuild|CodeDeploy|CodeCommit|Amplify|Lightsail|Batch|OpsWorks|CloudTrail|Cloud9|CloudHSM|Direct.*Connect|Elastic.*Transcoder|GuardDuty|Inspector|Macie|Organizations|Secrets.*Manager|Security.*Hub|Shield|WAF|WorkSpaces)\b`)
+	re := regexp.MustCompile(`(?i)\b(ec2|s3|rds|lambda|dynamodb|ecs|eks|cloudfront|route.*53|vpc|iam|cloudwatch|sns|sqs|redshift|glue|athena|kinesis|elastic.*beanstalk|cloudformation|elastic.*load.*balancing|sagemaker|fargate|aurora|elasticache|kinesis|step.*functions|appsync|codepipeline|codebuild|codedeploy|codecommit|amplify|lightsail|batch|opsworks|cloudtrail|cloud9|cloudhsm|direct.*connect|elastic.*transcoder|guardduty|inspector|macie|organizations|secrets.*manager|security.*hub|shield|waf|workspaces)\b`)
 
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
