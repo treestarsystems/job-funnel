@@ -13,10 +13,10 @@ var DB *gorm.DB
 var TableName *string
 var SqliteDbName *string
 
-func ConnectDatabase() {
+func LoadDbConnectSQLite() {
 	// Get table name
-	tableName := os.Getenv("TABLE_NAME")
-	sqliteDbName := os.Getenv("SQLITE_DB_NAME")
+	tableName := os.Getenv("DB_TABLE_COLLECTION_NAME")
+	sqliteDbName := os.Getenv("DB_SQLITE_FILENAME")
 	TableName = &tableName
 	SqliteDbName = &sqliteDbName
 	// Create DB Connection
@@ -25,16 +25,16 @@ func ConnectDatabase() {
 		log.Fatalf("error - Unable to establish database connection: %s", err)
 	}
 	// Migrate the schema/Create the table
-	err = db.Table(*TableName).AutoMigrate(&transform.JobPost{})
+	err = db.Table(*TableName).AutoMigrate(&LoadDbInsertJobPost{})
 	if err != nil {
 		log.Fatalf("error - Unable to migrate the schema: %s", err)
 	}
 	DB = db
 }
 
-func LoadDataToSqlite(data transform.JobPost) {
+func LoadDbDataToSqlite(data transform.JobPost) {
 	// Save = Upsert
-	DB.Table(*TableName).Where(DbLoadJobPost{JobTitle: data.JobTitle}).Assign(DbLoadJobPost{
+	DB.Table(*TableName).Where(LoadDbInsertJobPost{JobTitle: data.JobTitle}).Assign(LoadDbInsertJobPost{
 		Description:    data.Description,
 		CodingLanguage: data.CodingLanguage,
 		Database:       data.Database,
@@ -42,7 +42,7 @@ func LoadDataToSqlite(data transform.JobPost) {
 		Pay:            data.Pay,
 		Location:       data.Location,
 		Links:          data.Links,
-	}).FirstOrCreate(&DbLoadJobPost{
+	}).FirstOrCreate(&LoadDbInsertJobPost{
 		Description:    data.Description,
 		CodingLanguage: data.CodingLanguage,
 		Database:       data.Database,

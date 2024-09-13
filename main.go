@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"job-funnel/load"
 	"job-funnel/transform"
 	"log"
-	"sync"
+	"os"
 
 	"github.com/joho/godotenv"
 )
@@ -16,6 +17,11 @@ func main() {
 		log.Fatalf("error - Error loading .env file: %s", err)
 	}
 
+	// Connect to the database
+	if os.Getenv("DB_ENABLE_SQLITE") == "true" {
+		load.LoadDbConnectSQLite()
+	}
+
 	jobs, err := transform.Weworkremotely_comCreateJobPostsRss("https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss")
 	if err != nil {
 		fmt.Println(err)
@@ -24,15 +30,12 @@ func main() {
 		fmt.Println(job.JobTitle)
 	}
 
-	// Connect to the database
-	// load.ConnectDatabaseSQLite()
-
 	// Establish a waitgroup
-	var waitgroup sync.WaitGroup
+	// var waitgroup sync.WaitGroup
 
 	// Start webserver
 	// api.StartServer()
 
 	// Wait for waitgroup to finish
-	waitgroup.Wait()
+	// waitgroup.Wait()
 }
