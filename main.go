@@ -1,6 +1,7 @@
 package main
 
 import (
+	"job-funnel/api"
 	"job-funnel/load"
 	"log"
 	"os"
@@ -32,7 +33,7 @@ func main() {
 	// var waitgroup sync.WaitGroup
 
 	// Start webserver
-	// api.StartServer()
+	api.StartServer()
 
 	// Wait for waitgroup to finish
 	// waitgroup.Wait()
