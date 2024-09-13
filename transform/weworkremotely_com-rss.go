@@ -1,4 +1,4 @@
-dddpackage transform
+package transform
 
 import (
 	"encoding/xml"

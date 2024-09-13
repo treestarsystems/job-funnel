@@ -17,7 +17,7 @@ func main() {
 
 	// Connect to the database
 	if os.Getenv("DB_ENABLE_SQLITE") == "true" {
-		load.LoadDbConnectSqlite()
+		load.LoadDbConnectToSqlite()
 	}
 
 	// jobs, err := transform.Weworkremotely_comCreateJobPostsRss("https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss")

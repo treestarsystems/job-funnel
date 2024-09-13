@@ -6,7 +6,7 @@ import (
 )
 
 // HTML page data is not returned because it is too large.
-type LoadDbRetrieveJobPost struct {
+type LoadDbGormRetrieveJobPost struct {
 	JobTitle       string                      `json:"title" binding:"required"`
 	Description    string                      `json:"description" binding:"required"`
 	CodingLanguage datatypes.JSONSlice[string] `json:"codinglanguage" binding:"required"`
@@ -17,7 +17,7 @@ type LoadDbRetrieveJobPost struct {
 	Links          datatypes.JSONSlice[string] `json:"link" binding:"required"`
 }
 
-type LoadDbInsertJobPost struct {
+type LoadDbGormInsertJobPost struct {
 	gorm.Model
 	JobTitle       string
 	Description    string
