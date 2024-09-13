@@ -1,4 +1,4 @@
-package transform
+dddpackage transform
 
 import (
 	"encoding/xml"
@@ -6,18 +6,6 @@ import (
 	"job-funnel/utils"
 	"strings"
 )
-
-func Weworkremotely_comProcessRss(url string) (Weworkremotely_comRss, error) {
-	body, err := extract.FetchRss(url)
-	if err != nil {
-		return Weworkremotely_comRss{}, err
-	}
-	parsedBody, err := Weworkremotely_comParseRss(body)
-	if err != nil {
-		return Weworkremotely_comRss{}, err
-	}
-	return parsedBody, nil
-}
 
 func Weworkremotely_comParseRss(rssXMLBody string) (Weworkremotely_comRss, error) {
 	reader := strings.NewReader(rssXMLBody)
@@ -28,6 +16,19 @@ func Weworkremotely_comParseRss(rssXMLBody string) (Weworkremotely_comRss, error
 		return job, err
 	}
 	return job, nil
+}
+
+// ProcessRss processes the given Rss feed URL and returns a Weworkremotely_comRss struct.
+func Weworkremotely_comProcessRss(url string) (Weworkremotely_comRss, error) {
+	body, err := extract.FetchRss(url)
+	if err != nil {
+		return Weworkremotely_comRss{}, err
+	}
+	parsedBody, err := Weworkremotely_comParseRss(body)
+	if err != nil {
+		return Weworkremotely_comRss{}, err
+	}
+	return parsedBody, nil
 }
 
 // ProcessJobPosts processes job posts from the given Rss feed URL and returns a slice of JobPost.

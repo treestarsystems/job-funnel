@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"job-funnel/load"
-	"job-funnel/transform"
 	"log"
 	"os"
 
@@ -19,17 +17,16 @@ func main() {
 
 	// Connect to the database
 	if os.Getenv("DB_ENABLE_SQLITE") == "true" {
-		load.LoadDbConnectSQLite()
-		load.LoadDbDataToSqlite(transform.JobPost{})
+		load.LoadDbConnectSqlite()
 	}
 
-	jobs, err := transform.Weworkremotely_comCreateJobPostsRss("https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss")
-	if err != nil {
-		fmt.Println(err)
-	}
-	for _, job := range jobs {
-		fmt.Println(job.JobTitle)
-	}
+	// jobs, err := transform.Weworkremotely_comCreateJobPostsRss("https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// for _, job := range jobs {
+	// 	load.LoadDbData(job)
+	// }
 
 	// Establish a waitgroup
 	// var waitgroup sync.WaitGroup

@@ -13,7 +13,7 @@ var DB *gorm.DB
 var TableName *string
 var SqliteDbName *string
 
-func LoadDbConnectSQLite() {
+func LoadDbConnectSqlite() {
 	// Get table name
 	tableName := os.Getenv("DB_TABLE_COLLECTION_NAME")
 	sqliteDbName := os.Getenv("DB_SQLITE_FILENAME")
