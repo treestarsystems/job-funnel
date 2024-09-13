@@ -32,7 +32,7 @@ func LoadDbConnectSQLite() {
 	DB = db
 }
 
-func LoadDbDataToSqlite(data transform.JobPost) {
+func loadDbDataToSqlite(data transform.JobPost) {
 	// Save = Upsert
 	DB.Table(*TableName).Where(LoadDbInsertJobPost{JobTitle: data.JobTitle}).Assign(LoadDbInsertJobPost{
 		Description:    data.Description,
