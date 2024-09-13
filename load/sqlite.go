@@ -15,7 +15,7 @@ var SqliteDbName *string
 
 func LoadDbConnectToSqlite() {
 	// Get table name
-	tableName := os.Getenv("DB_TABLE_COLLECTION_NAME")
+	tableName := os.Getenv("DB_TABLE_NAME")
 	sqliteDbName := os.Getenv("DB_SQLITE_FILENAME")
 	TableName = &tableName
 	SqliteDbName = &sqliteDbName
