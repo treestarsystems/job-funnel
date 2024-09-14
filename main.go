@@ -1,11 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"job-funnel/api"
 	"job-funnel/cron"
 	"job-funnel/load"
-	"job-funnel/transform"
 	"log"
 	"os"
 
@@ -28,19 +26,11 @@ func main() {
 		load.LoadDbConnectToMongoDb()
 	}
 
-	jobs, err := transform.Weworkremotely_comCreateJobPostsRss("https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss")
-	if err != nil {
-		fmt.Println(err)
-	}
-	for _, job := range jobs {
-		load.LoadDbData(job)
-	}
+	// Initialize cron jobs
+	cron.InitCron()
 
 	// Start webserver
 	api.StartServer()
-
-	// Initialize cron jobs
-	cron.InitCron()
 
 	// Wait for waitgroup to finish
 	// waitgroup.Wait()
