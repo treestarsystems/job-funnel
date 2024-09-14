@@ -25,7 +25,7 @@ func LoadDbConnectToSqlite() {
 		log.Fatalf("error - Unable to establish database connection: %s", err)
 	}
 	// Migrate the schema/Create the table
-	err = db.Table(*TableName).AutoMigrate(&LoadDbGormInsertJobPost{})
+	err = db.Table(*TableName).AutoMigrate(&LoadDbInsertGorm{})
 	if err != nil {
 		log.Fatalf("error - Unable to migrate the schema: %s", err)
 	}
@@ -34,7 +34,7 @@ func LoadDbConnectToSqlite() {
 
 func loadDbDataToSqlite(data transform.JobPost) {
 	// Save = Upsert
-	DB.Table(*TableName).Where(LoadDbGormInsertJobPost{JobTitle: data.JobTitle}).Assign(LoadDbGormInsertJobPost{
+	DB.Table(*TableName).Where(transform.JobPost{JobTitle: data.JobTitle}).Assign(transform.JobPost{
 		Description:    data.Description,
 		CodingLanguage: data.CodingLanguage,
 		Database:       data.Database,
@@ -42,7 +42,7 @@ func loadDbDataToSqlite(data transform.JobPost) {
 		Pay:            data.Pay,
 		Location:       data.Location,
 		Links:          data.Links,
-	}).FirstOrCreate(&LoadDbGormInsertJobPost{
+	}).FirstOrCreate(&transform.JobPost{
 		Description:    data.Description,
 		CodingLanguage: data.CodingLanguage,
 		Database:       data.Database,

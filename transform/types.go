@@ -1,17 +1,24 @@
 package transform
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"time"
+
+	"gorm.io/datatypes"
+)
 
 // SharedStructJobs contains common job information from each job listing.
 type JobPost struct {
-	JobTitle       string   `json:"title,omitempty"`
-	Description    string   `json:"description,omitempty"`
-	CodingLanguage []string `json:"codinglanguage,omitempty"`
-	Database       []string `json:"database,omitempty"`
-	CompanyName    string   `json:"companyname,omitempty"`
-	Pay            []string `json:"pay,omitempty"`
-	Location       []string `json:"location,omitempty"`
-	Links          []string `json:"link,omitempty"`
+	JobTitle       string                      `bson:"title" json:"title" binding:"required"`
+	Description    string                      `bson:"description" json:"description" binding:"required"`
+	CodingLanguage datatypes.JSONSlice[string] `bson:"codinglanguage" json:"codinglanguage" binding:"required"`
+	Database       datatypes.JSONSlice[string] `bson:"database" json:"database" binding:"required"`
+	CompanyName    string                      `bson:"companyname" json:"companyname" binding:"required"`
+	Pay            datatypes.JSONSlice[string] `bson:"pay" json:"pay" binding:"required"`
+	Location       datatypes.JSONSlice[string] `bson:"location" json:"location" binding:"required"`
+	Links          datatypes.JSONSlice[string] `bson:"link" json:"link" binding:"required"`
+	CreatedAt      time.Time                   `bson:"created_at" json:"created_at" binding:"required"`
+	UpdatedAt      time.Time                   `bson:"updated_at" json:"updated_at" binding:"required"`
 }
 
 type Weworkremotely_comRss struct {
