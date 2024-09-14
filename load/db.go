@@ -7,11 +7,12 @@ import (
 
 func LoadDbData(data transform.JobPost) {
 
-	// Save to SQLite
-	if os.Getenv("DB_ENABLE_SQLITE") == "true" {
+	// Upsert job posts to the database
+	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
 		loadDbDataToSqlite(data)
 	}
-	if os.Getenv("DB_ENABLE_MONGO") == "true" {
-		// loadDbDataToMongoDB(data)
+
+	if os.Getenv("DB_MONGO_ENABLE") == "true" {
+		loadDbDataToMongoDb(data)
 	}
 }

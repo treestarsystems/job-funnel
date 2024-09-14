@@ -9,16 +9,18 @@ import (
 
 // SharedStructJobs contains common job information from each job listing.
 type JobPost struct {
-	JobTitle       string                      `bson:"title" json:"title" binding:"required"`
+	JobTitle       string                      `bson:"job_title" json:"jobTitle" binding:"required"`
 	Description    string                      `bson:"description" json:"description" binding:"required"`
-	CodingLanguage datatypes.JSONSlice[string] `bson:"codinglanguage" json:"codinglanguage" binding:"required"`
+	CodingLanguage datatypes.JSONSlice[string] `bson:"coding_language" json:"codingLanguage" binding:"required"`
 	Database       datatypes.JSONSlice[string] `bson:"database" json:"database" binding:"required"`
-	CompanyName    string                      `bson:"companyname" json:"companyname" binding:"required"`
+	CompanyName    string                      `bson:"company_name" json:"companyName" binding:"required"`
 	Pay            datatypes.JSONSlice[string] `bson:"pay" json:"pay" binding:"required"`
 	Location       datatypes.JSONSlice[string] `bson:"location" json:"location" binding:"required"`
 	Links          datatypes.JSONSlice[string] `bson:"link" json:"link" binding:"required"`
-	CreatedAt      time.Time                   `bson:"created_at" json:"created_at" binding:"required"`
-	UpdatedAt      time.Time                   `bson:"updated_at" json:"updated_at" binding:"required"`
+	CreatedAt      time.Time                   `bson:"created_at" json:"createdAt" binding:"required"`
+	UpdatedAt      time.Time                   `bson:"updated_at" json:"updatedAt" binding:"required"`
+	// CreatedAt      time.Time                   `bson:"createdAt" json:"createdAt" binding:"required"`
+	// UpdatedAt      time.Time                   `bson:"updatedAt" json:"updatedAt" binding:"required"`
 }
 
 type Weworkremotely_comRss struct {

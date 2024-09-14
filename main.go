@@ -18,8 +18,18 @@ func main() {
 	}
 
 	// Connect to the database
-	if os.Getenv("DB_ENABLE_SQLITE") == "true" {
+	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
 		load.LoadDbConnectToSqlite()
+	}
+
+	if os.Getenv("DB_MONGODB_ENABLE") == "true" {
+		load.LoadDbConnectToMongoDb()
+		// defer load.ClientMongo.Disconnect(load.CtxMongo)
+		// defer func() {
+		// 	if err := load.ClientMongo.Disconnect(load.CtxMongo); err != nil {
+		// 		panic(err)
+		// 	}
+		// }()
 	}
 
 	jobs, err := transform.Weworkremotely_comCreateJobPostsRss("https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss")
