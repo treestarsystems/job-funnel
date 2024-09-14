@@ -17,8 +17,8 @@ var CtxMongo = context.TODO()
 
 func LoadDbConnectToMongoDb() {
 	mongoDbUri := os.Getenv("DB_MONGODB_URI")
-	// mongoDbName := os.Getenv("DB_NAME")
-	// mongoDbCollectionName := os.Getenv("DB_TABLE_NAME")
+	mongoDbName := os.Getenv("DB_NAME")
+	mongoDbCollectionName := os.Getenv("DB_TABLE_NAME")
 	clientOptions := options.Client().ApplyURI(mongoDbUri)
 	ClientMongo, err := mongo.Connect(CtxMongo, clientOptions)
 	if err != nil {
@@ -30,13 +30,11 @@ func LoadDbConnectToMongoDb() {
 		log.Fatal("error - MongoDB: Unable to ping database instance: %s", err)
 	}
 
-	// collection = client.Database(mongoDbName).Collection(mongoDbCollectionName)
-	collectionMongo = ClientMongo.Database("jobs").Collection("job_posts")
+	collectionMongo = ClientMongo.Database(mongoDbName).Collection(mongoDbCollectionName)
 }
 
 func loadDbDataToMongoDb(data transform.JobPost) error {
-
-	// filter := bson.M{"jobTitle": data.JobTitle}
+	filter := bson.M{"job_title": data.JobTitle}
 	update := bson.M{
 		"$set": bson.M{
 			"job_title":       data.JobTitle,
@@ -51,13 +49,11 @@ func loadDbDataToMongoDb(data transform.JobPost) error {
 			"updated_at":      data.UpdatedAt,
 		},
 	}
-	// opts := options.Update().SetUpsert(true)
+	opts := options.Update().SetUpsert(true)
 
-	// _, err := collectionMongo.UpdateOne(CtxMongo, filter, update, opts)
-	result, err := collectionMongo.InsertOne(CtxMongo, update)
+	_, err := collectionMongo.UpdateOne(CtxMongo, filter, update, opts)
 	if err != nil {
 		return err
 	}
-	log.Printf("MongoDB: Upserted job post with ID: %s", result.InsertedID)
 	return nil
 }

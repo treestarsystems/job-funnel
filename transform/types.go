@@ -19,8 +19,6 @@ type JobPost struct {
 	Links          datatypes.JSONSlice[string] `bson:"link" json:"link" binding:"required"`
 	CreatedAt      time.Time                   `bson:"created_at" json:"createdAt" binding:"required"`
 	UpdatedAt      time.Time                   `bson:"updated_at" json:"updatedAt" binding:"required"`
-	// CreatedAt      time.Time                   `bson:"createdAt" json:"createdAt" binding:"required"`
-	// UpdatedAt      time.Time                   `bson:"updatedAt" json:"updatedAt" binding:"required"`
 }
 
 type Weworkremotely_comRss struct {
