@@ -25,4 +25,5 @@ func cronWeworkremotely_comRss() {
 	for _, job := range jobs {
 		load.LoadDbData(job)
 	}
+	fmt.Println("Cron: Weworkremotely.com - Executing RSS Feed Job...")
 }
