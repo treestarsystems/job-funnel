@@ -12,7 +12,7 @@ func LoadDbData(data transform.JobPost) {
 		loadDbDataToSqlite(data)
 	}
 
-	if os.Getenv("DB_MONGO_ENABLE") == "true" {
+	if os.Getenv("DB_MONGODB_ENABLE") == "true" {
 		loadDbDataToMongoDb(data)
 	}
 }

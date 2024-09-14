@@ -24,12 +24,6 @@ func main() {
 
 	if os.Getenv("DB_MONGODB_ENABLE") == "true" {
 		load.LoadDbConnectToMongoDb()
-		// defer load.ClientMongo.Disconnect(load.CtxMongo)
-		// defer func() {
-		// 	if err := load.ClientMongo.Disconnect(load.CtxMongo); err != nil {
-		// 		panic(err)
-		// 	}
-		// }()
 	}
 
 	jobs, err := transform.Weworkremotely_comCreateJobPostsRss("https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss")

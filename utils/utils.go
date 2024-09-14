@@ -3,6 +3,7 @@ package utils
 import (
 	"reflect"
 	"regexp"
+	"strings"
 )
 
 // Parses all salary information from the given string.
@@ -32,10 +33,22 @@ func ParseCityOrState(text string) []string {
 	return matches
 }
 
+func ParseJobLocation(text string) []string {
+	// Define a regex pattern to match common city or state patterns
+	re := regexp.MustCompile(`(?i)\b(remote|hybrid|on.*site)\b`)
+
+	// Find all matches in the text
+	matches := re.FindAllString(text, -1)
+	if len(matches) == 0 {
+		return []string{"location information not found"}
+	}
+	return DeduplicateSliceContents(matches).([]string)
+}
+
 // Parses programming languages from the given string.
-func ParseProgrammingLanguages(text string) []string {
+func ParseCommonProgrammingLanguages(text string) []string {
 	// Define a regex pattern to match common programming languages
-	re := regexp.MustCompile(`(?i)\b(java|python|javascript|c\+\+|c#|ruby|go|swift|kotlin|php|typescript|rust|scala|perl|haskell|r|objective-c|dart|lua|matlab|groovy|shell|powershell|visual.*basic|assembly|cobol|fortran|pascal|ada|lisp|scheme|prolog|erlang|elixir|f#|ocaml|clojure|julia|vhdl|verilog|solidity|sql|pl/sql|t-sql|sas|spss|stata|racket|smalltalk|abap|actionscript|apex|awk|bash|batch|bc|brainfuck|caml|chapel|clean|clipper|cmake|cobol|coffeescript|crystal|curl|dcl|dylan|eiffel|emacs.*lisp|euphoria|forth|gams|gap|gdl|gdscript|gml|gnuplot|idl|jscript|labview|ladder.*logic|livecode|logo|m4|max/msp|mercury|ml|modula-2|mumps|natural|nim|nxc|opencl|openedge.*abl|openscad|p4|pike|pl/i|postscript|pure.*data|racket|raku|rexx|ring|s-lang|sml|spark|spin|tcl|turing|vala|vbscript|vim.*script|wolfram|x10|xbase|xojo|zig)\b`)
+	re := regexp.MustCompile(`(?i)\b(node.*js|java|python|javascript|c\+\+|c#|ruby|go|swift|kotlin|php|typescript|rust|scala|perl|haskell|r|objective-c|dart|lua|matlab|groovy|shell|powershell|visual.*basic|assembly|cobol|fortran|pascal|ada|lisp|scheme|prolog|erlang|elixir|f#|ocaml|clojure|julia|vhdl|verilog|solidity|sql|pl/sql|t-sql|sas|spss|stata|racket|smalltalk|abap|actionscript|apex|awk|bash|batch|bc|brainfuck|caml|chapel|clean|clipper|cmake|cobol|coffeescript|crystal|curl|dcl|dylan|eiffel|emacs.*lisp|euphoria|forth|gams|gap|gdl|gdscript|gml|gnuplot|idl|jscript|labview|ladder.*logic|livecode|logo|m4|max/msp|mercury|ml|modula-2|mumps|natural|nim|nxc|opencl|openedge.*abl|openscad|p4|pike|pl/i|postscript|pure.*data|racket|raku|rexx|ring|s-lang|sml|spark|spin|tcl|turing|vala|vbscript|vim.*script|wolfram|x10|xbase|xojo|zig)\b`)
 
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
@@ -48,7 +61,7 @@ func ParseProgrammingLanguages(text string) []string {
 // Parses database types from the given string in a case-insensitive manner.
 func ParseCommonFrameworks(text string) []string {
 	// Define a regex pattern to match common coding frameworks
-	re := regexp.MustCompile(`(?i)\b(react|angular|vue.*js|django|flask|spring|express|ruby.*on.*rails|ruby|rails|laravel|asp.*net|\.net|dotnet|symfony|svelte|ember.*js|backbone.*js|meteor|next.*js|nuxt.*js|gatsby|bootstrap|foundation|tailwind.*css|jquery|redux|nestjs|koa|fastapi|phoenix|play|struts|blade|gin|beego|echo|fiber|rocket|actix|tornado|bottle|pyramid|cherrypy|hug|falcon|sanic|fastify|hapi|loopback|feathers|adonisjs|sails|aurelia|alpine.*js|stimulus|litelement|stencil|node.*js|nest.*js)\b`)
+	re := regexp.MustCompile(`(?i)\b(react|angular|vue.*js|django|flask|spring|express|ruby.*on.*rails|rails|laravel|asp.*net|\.net|dotnet|symfony|svelte|ember.*js|backbone.*js|meteor|next.*js|nuxt.*js|gatsby|bootstrap|foundation|tailwind.*css|jquery|redux|nestjs|koa|fastapi|phoenix|play|struts|blade|gin|beego|echo|fiber|rocket|actix|tornado|bottle|pyramid|cherrypy|hug|falcon|sanic|fastify|hapi|loopback|feathers|adonisjs|sails|aurelia|alpine.*js|stimulus|litelement|stencil|nest.*js)\b`)
 
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
@@ -130,7 +143,7 @@ func ParseNonImageLinks(text string) []string {
 	return dedupedLinks
 }
 
-// Deduplicates a slice of any type.
+// Deduplicates a slice of any type and converts all strings to lowercase.
 func DeduplicateSliceContents(slice interface{}) interface{} {
 	// Use reflection to get the value and type of the input slice
 	v := reflect.ValueOf(slice)
@@ -145,9 +158,15 @@ func DeduplicateSliceContents(slice interface{}) interface{} {
 	// Iterate over the input slice and add unique elements to the result slice
 	for i := 0; i < v.Len(); i++ {
 		elem := v.Index(i).Interface()
+
+		// Convert strings to lowercase
+		if str, ok := elem.(string); ok {
+			elem = strings.ToLower(str)
+		}
+
 		if !uniqueMap[elem] {
 			uniqueMap[elem] = true
-			uniqueSlice = reflect.Append(uniqueSlice, v.Index(i))
+			uniqueSlice = reflect.Append(uniqueSlice, reflect.ValueOf(elem))
 		}
 	}
 

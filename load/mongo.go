@@ -37,22 +37,24 @@ func loadDbDataToMongoDb(data transform.JobPost) error {
 	filter := bson.M{"job_title": data.JobTitle}
 	update := bson.M{
 		"$set": bson.M{
-			"job_title":       data.JobTitle,
-			"description":     data.Description,
-			"coding_language": data.CodingLanguage,
-			"database":        data.Database,
-			"company_name":    data.CompanyName,
-			"pay":             data.Pay,
-			"location":        data.Location,
-			"links":           data.Links,
-			"created_at":      data.CreatedAt,
-			"updated_at":      data.UpdatedAt,
+			"job_title":        data.JobTitle,
+			"description":      data.Description,
+			"coding_language":  data.CodingLanguage,
+			"coding_framework": data.CodingFramework,
+			"database":         data.Database,
+			"company_name":     data.CompanyName,
+			"pay":              data.Pay,
+			"location":         data.Location,
+			"links":            data.Links,
+			"created_at":       data.CreatedAt,
+			"updated_at":       data.UpdatedAt,
 		},
 	}
 	opts := options.Update().SetUpsert(true)
 
 	_, err := collectionMongo.UpdateOne(CtxMongo, filter, update, opts)
 	if err != nil {
+		log.Printf("error - MongoDB: Database write failure: %s", err)
 		return err
 	}
 	return nil

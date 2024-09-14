@@ -41,20 +41,22 @@ func Weworkremotely_comCreateJobPostsRss(feedURL string) ([]JobPost, error) {
 	var jobs []JobPost
 	for _, item := range data.Channel.Item {
 		description := utils.RemoveHTMLTags(item.Description)
-		codingLanguages := utils.ParseProgrammingLanguages(description)
+		codingLanguage := utils.ParseCommonProgrammingLanguages(description)
+		codingFramework := utils.ParseCommonFrameworks(description)
 		database := utils.ParseDatabaseTypes(description)
 		pay := utils.ParseSalaries(description)
 		links := utils.ParseNonImageLinks(description)
-		location := utils.ParseCityOrState(description)
+		location := utils.ParseJobLocation(description)
 		job := JobPost{
-			JobTitle:       item.Title,
-			Description:    description,
-			CodingLanguage: codingLanguages,
-			Database:       database,
-			CompanyName:    "",
-			Pay:            pay,
-			Location:       location,
-			Links:          links,
+			JobTitle:        item.Title,
+			Description:     description,
+			CodingLanguage:  codingLanguage,
+			CodingFramework: codingFramework,
+			Database:        database,
+			CompanyName:     "",
+			Pay:             pay,
+			Location:        location,
+			Links:           links,
 		}
 		jobs = append(jobs, job)
 	}

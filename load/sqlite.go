@@ -35,20 +35,22 @@ func LoadDbConnectToSqlite() {
 func loadDbDataToSqlite(data transform.JobPost) {
 	// Save = Upsert
 	DB.Table(*TableName).Where(transform.JobPost{JobTitle: data.JobTitle}).Assign(transform.JobPost{
-		Description:    data.Description,
-		CodingLanguage: data.CodingLanguage,
-		Database:       data.Database,
-		CompanyName:    data.CompanyName,
-		Pay:            data.Pay,
-		Location:       data.Location,
-		Links:          data.Links,
+		Description:     data.Description,
+		CodingLanguage:  data.CodingLanguage,
+		CodingFramework: data.CodingFramework,
+		Database:        data.Database,
+		CompanyName:     data.CompanyName,
+		Pay:             data.Pay,
+		Location:        data.Location,
+		Links:           data.Links,
 	}).FirstOrCreate(&transform.JobPost{
-		Description:    data.Description,
-		CodingLanguage: data.CodingLanguage,
-		Database:       data.Database,
-		CompanyName:    data.CompanyName,
-		Pay:            data.Pay,
-		Location:       data.Location,
-		Links:          data.Links,
+		Description:     data.Description,
+		CodingLanguage:  data.CodingLanguage,
+		CodingFramework: data.CodingFramework,
+		Database:        data.Database,
+		CompanyName:     data.CompanyName,
+		Pay:             data.Pay,
+		Location:        data.Location,
+		Links:           data.Links,
 	})
 }
