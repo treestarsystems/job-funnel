@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"job-funnel/api"
+	"job-funnel/cron"
 	"job-funnel/load"
 	"job-funnel/transform"
 	"log"
@@ -34,11 +36,11 @@ func main() {
 		load.LoadDbData(job)
 	}
 
-	// Establish a waitgroup
-	// var waitgroup sync.WaitGroup
-
 	// Start webserver
-	// api.StartServer()
+	api.StartServer()
+
+	// Initialize cron jobs
+	cron.InitCron()
 
 	// Wait for waitgroup to finish
 	// waitgroup.Wait()
