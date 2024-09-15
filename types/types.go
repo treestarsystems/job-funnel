@@ -1,4 +1,4 @@
-package transform
+package types
 
 import (
 	"encoding/xml"
@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"gorm.io/datatypes"
+	"gorm.io/gorm"
 )
 
 // SharedStructJobs contains common job information from each job listing.
@@ -72,3 +73,15 @@ type EmailAttachment struct {
 	EmailAttachmentFilename string
 	EmailAttachmentContent  []byte
 }
+
+type LoadDbInsertGorm struct {
+	JobPost
+	ID        uint           `gorm:"primarykey"`
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+}
+
+// MongoDB uses a different function to create the ID
+// type LoadDbInsertMongoDb struct {
+// 	JobPost
+// 	ID primitive.ObjectID `bson:"_id"`
+// }

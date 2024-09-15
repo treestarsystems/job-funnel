@@ -3,7 +3,7 @@ package load
 import (
 	"errors"
 	"fmt"
-	"job-funnel/transform"
+	"job-funnel/types"
 	"log"
 	"os"
 
@@ -26,14 +26,14 @@ func LoadDbConnectToSqlite() {
 		log.Printf("error - SQLite: Unable to establish database connection: %s", err)
 	}
 	// Migrate the schema/Create the table
-	err = db.Table(*TableName).AutoMigrate(&LoadDbInsertGorm{})
+	err = db.Table(*TableName).AutoMigrate(&types.LoadDbInsertGorm{})
 	if err != nil {
 		log.Printf("error - SQLite: Unable to migrate the schema: %s", err)
 	}
 	DB = db
 }
 
-func loadDbDataToSqlite(data transform.JobPost) {
+func loadDbDataToSqlite(data types.JobPost) {
 	// Need a way to get the correct file path no matter the OS.
 	// This will rerun the connection to the database if the file does not exist.
 	fileName := fmt.Sprintf("./%v", os.Getenv("DB_SQLITE_FILENAME"))
@@ -43,7 +43,7 @@ func loadDbDataToSqlite(data transform.JobPost) {
 	}
 
 	// Save = Upsert
-	DB.Table(*TableName).Where(transform.JobPost{JobTitle: data.JobTitle}).Assign(transform.JobPost{
+	DB.Table(*TableName).Where(types.JobPost{JobTitle: data.JobTitle}).Assign(types.JobPost{
 		Description:     data.Description,
 		CodingLanguage:  data.CodingLanguage,
 		CodingFramework: data.CodingFramework,
@@ -52,7 +52,7 @@ func loadDbDataToSqlite(data transform.JobPost) {
 		Pay:             data.Pay,
 		WorkLocation:    data.WorkLocation,
 		Links:           data.Links,
-	}).FirstOrCreate(&transform.JobPost{
+	}).FirstOrCreate(&types.JobPost{
 		Description:     data.Description,
 		CodingLanguage:  data.CodingLanguage,
 		CodingFramework: data.CodingFramework,

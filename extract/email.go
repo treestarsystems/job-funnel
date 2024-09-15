@@ -3,16 +3,15 @@ package extract
 import (
 	"fmt"
 	"io"
+	"job-funnel/types"
 	"mime"
 	"mime/multipart"
 	"net/mail"
 	"strings"
-
-	"job-funnel/transform"
 )
 
 // ParseEmailMessage parses an email message and returns an EmailMessage struct.
-func ParseEmailMessage(rawMessage string) (*transform.EmailMessage, error) {
+func ParseEmailMessage(rawMessage string) (*types.EmailMessage, error) {
 	// Read the email message
 	msg, err := mail.ReadMessage(strings.NewReader(rawMessage))
 	if err != nil {
@@ -43,7 +42,7 @@ func ParseEmailMessage(rawMessage string) (*transform.EmailMessage, error) {
 		return nil, fmt.Errorf("error - Email parsing body and attachments: %v - %s:%s", err, subject, date)
 	}
 
-	return &transform.EmailMessage{
+	return &types.EmailMessage{
 		EmailSubject:     subject,
 		EmailFrom:        from,
 		EmailTo:          to,
@@ -55,9 +54,9 @@ func ParseEmailMessage(rawMessage string) (*transform.EmailMessage, error) {
 }
 
 // parseBodyAndAttachments parses the body and attachments of an email message.
-func parseBodyAndAttachments(msg *mail.Message) (string, string, []transform.EmailAttachment, error) {
+func parseBodyAndAttachments(msg *mail.Message) (string, string, []types.EmailAttachment, error) {
 	var plainText, html string
-	var attachments []transform.EmailAttachment
+	var attachments []types.EmailAttachment
 
 	mediaType, params, err := mime.ParseMediaType(msg.Header.Get("Content-Type"))
 	if err != nil {
@@ -72,19 +71,19 @@ func parseBodyAndAttachments(msg *mail.Message) (string, string, []transform.Ema
 				break
 			}
 			if err != nil {
-				return "", "", nil, fmt.Errorf("error - Email reading multipart: %v", err)
+				return "", "", nil, fmt.Errorf("Email reading multipart: %v", err)
 			}
 
 			slurp, err := io.ReadAll(p)
 			if err != nil {
-				return "", "", nil, fmt.Errorf("error - Email reading part: %v", err)
+				return "", "", nil, fmt.Errorf("Email reading part: %v", err)
 			}
 
 			contentDisposition := p.Header.Get("Content-Disposition")
 			contentType := p.Header.Get("Content-Type")
 			if strings.HasPrefix(contentDisposition, "attachment") {
 				filename := p.FileName()
-				attachments = append(attachments, transform.EmailAttachment{
+				attachments = append(attachments, types.EmailAttachment{
 					EmailAttachmentFilename: filename,
 					EmailAttachmentContent:  slurp,
 				})
@@ -97,7 +96,7 @@ func parseBodyAndAttachments(msg *mail.Message) (string, string, []transform.Ema
 	} else {
 		slurp, err := io.ReadAll(msg.Body)
 		if err != nil {
-			return "", "", nil, fmt.Errorf("error - Email reading body: %v", err)
+			return "", "", nil, fmt.Errorf("Email reading body: %v", err)
 		}
 		if strings.HasPrefix(mediaType, "text/plain") {
 			plainText = string(slurp)
