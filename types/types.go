@@ -31,6 +31,23 @@ type JobPost struct {
 	UpdatedAt       time.Time                   `bson:"updated_at" json:"updatedAt" binding:"required"`
 }
 
+// EmailMessage represents a parsed email message.
+type EmailMessage struct {
+	EmailSubject     string
+	EmailFrom        *mail.Address
+	EmailTo          []*mail.Address
+	EmailDate        string
+	EmailHTML        string
+	EmailPlainText   string
+	EmailAttachments []EmailAttachment
+}
+
+// Attachment represents an email attachment.
+type EmailAttachment struct {
+	EmailAttachmentFilename string
+	EmailAttachmentContent  []byte
+}
+
 type Weworkremotely_comRss struct {
 	XMLName xml.Name `xml:"rss" json:"rss,omitempty"`
 	Text    string   `xml:",chardata" json:"text,omitempty"`
@@ -62,23 +79,6 @@ type Weworkremotely_comRss struct {
 			Link        string `xml:"link"`
 		} `xml:"item" json:"item,omitempty"`
 	} `xml:"channel" json:"channel,omitempty"`
-}
-
-// EmailMessage represents a parsed email message.
-type EmailMessage struct {
-	EmailSubject     string
-	EmailFrom        *mail.Address
-	EmailTo          []*mail.Address
-	EmailDate        string
-	EmailHTML        string
-	EmailPlainText   string
-	EmailAttachments []EmailAttachment
-}
-
-// Attachment represents an email attachment.
-type EmailAttachment struct {
-	EmailAttachmentFilename string
-	EmailAttachmentContent  []byte
 }
 
 type LoadDbInsertGorm struct {
