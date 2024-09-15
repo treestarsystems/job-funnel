@@ -14,7 +14,7 @@ func ParseSalaries(text string) []string {
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
 	if len(matches) == 0 {
-		return []string{"salary information not found"}
+		return []string{}
 	}
 	return matches
 }
@@ -28,7 +28,7 @@ func ParseCityOrState(text string) []string {
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
 	if len(matches) == 0 {
-		return []string{"city or state information not found"}
+		return []string{}
 	}
 	return matches
 }
@@ -40,7 +40,7 @@ func ParseJobWorkLocation(text string) []string {
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
 	if len(matches) == 0 {
-		return []string{"location information not found"}
+		return []string{}
 	}
 	return DeduplicateSliceContents(matches).([]string)
 }
@@ -53,7 +53,7 @@ func ParseCommonProgrammingLanguages(text string) []string {
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
 	if len(matches) == 0 {
-		return []string{"programming languages not found"}
+		return []string{}
 	}
 	return DeduplicateSliceContents(matches).([]string)
 }
@@ -66,7 +66,7 @@ func ParseCommonFrameworks(text string) []string {
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
 	if len(matches) == 0 {
-		return []string{"coding frameworks not found"}
+		return []string{}
 	}
 	return DeduplicateSliceContents(matches).([]string)
 }
@@ -79,7 +79,7 @@ func ParseDatabaseTypes(text string) []string {
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
 	if len(matches) == 0 {
-		return []string{"database types not found"}
+		return []string{}
 	}
 	return DeduplicateSliceContents(matches).([]string)
 }
@@ -92,7 +92,7 @@ func ParseAWSServiceNames(text string) []string {
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
 	if len(matches) == 0 {
-		return []string{"database types not found"}
+		return []string{}
 	}
 	return DeduplicateSliceContents(matches).([]string)
 }
@@ -138,7 +138,7 @@ func ParseNonImageLinks(text string) []string {
 	dedupedLinks := DeduplicateSliceContents(nonImageLinks).([]string)
 
 	if len(dedupedLinks) == 0 {
-		return []string{"no links found"}
+		return []string{}
 	}
 	return dedupedLinks
 }
@@ -148,7 +148,7 @@ func DeduplicateSliceContents(slice interface{}) interface{} {
 	// Use reflection to get the value and type of the input slice
 	v := reflect.ValueOf(slice)
 	if v.Kind() != reflect.Slice {
-		return []string{"input is not a slice"}
+		return []string{}
 	}
 
 	// Create a map to track unique elements
