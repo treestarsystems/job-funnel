@@ -27,8 +27,8 @@ func main() {
 		load.LoadDbConnectToMongoDb()
 	}
 
-	// Initial run of tasks on startup
-	tasks.InitTasks()
+	// Initial run of tasks on startup as a non-blocking goroutine
+	go tasks.InitTasks()
 
 	// Initialize cron jobs
 	cron.InitCron()
