@@ -9,7 +9,7 @@ import (
 func InitCron() {
 	c := cron.New()
 	c.AddFunc("0 8,12,16 * * *", func() {
-		tasks.CronWeworkremotely_comRss()
+		tasks.Weworkremotely_comRss()
 	})
 	c.Start()
 }
