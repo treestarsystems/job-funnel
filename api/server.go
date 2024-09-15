@@ -15,9 +15,13 @@ func StartServer() *gin.Engine {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	router := gin.Default()
+
 	// Pass routes to the router
 	// RoutesRecipe(router)
+
 	fmt.Printf("Starting server on port :%s\n", os.Getenv("PORT"))
+
 	router.Run()
+
 	return router
 }
