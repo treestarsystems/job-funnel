@@ -1,11 +1,11 @@
 package load
 
 import (
-	"job-funnel/transform"
+	"job-funnel/types"
 	"os"
 )
 
-func LoadDbData(data transform.JobPost) {
+func LoadDbData(data types.JobPost) {
 	// Upsert job posts to the database
 	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
 		loadDbDataToSqlite(data)

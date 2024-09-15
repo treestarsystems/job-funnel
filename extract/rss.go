@@ -11,18 +11,15 @@ import (
 func FetchRss(url string) (string, error) {
 	u := govalidator.IsURL(url)
 	if !u {
-		errorMessage := fmt.Errorf("error - Rss Invalid URL: %s", url)
-		return "", errorMessage
+		return "", fmt.Errorf("error - Rss Invalid URL: %s", url)
 	}
 	client, err := cf.New()
 	if err != nil {
-		errorMessage := fmt.Errorf("error - Rss Client creation: %v", err)
-		return "", errorMessage
+		return "", fmt.Errorf("error - Rss Client creation: %v - %s", err, url)
 	}
 	response, err := client.Get(url, cf.M{})
 	if err != nil {
-		errorMessage := fmt.Errorf("error - Rss Client GET Request: %v", err)
-		return "", errorMessage
+		return "", fmt.Errorf("error - Rss Client GET Request: %v - %s", err, url)
 	}
 	body := response.Body
 	return body, nil
