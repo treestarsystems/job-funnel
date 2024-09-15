@@ -35,7 +35,4 @@ func main() {
 
 	// Start webserver
 	api.StartServer()
-
-	// Wait for waitgroup to finish
-	// waitgroup.Wait()
 }
