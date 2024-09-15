@@ -14,25 +14,21 @@ func FetchHTML(url string) (string, error) {
 	// Validate URL
 	u := govalidator.IsURL(url)
 	if !u {
-		errorMessage := fmt.Errorf("error - HTML Invalid URL: %s", url)
-		return "", errorMessage
+		return "", fmt.Errorf("error - HTML Invalid URL: %s", url)
 	}
 	// Retrieve HTML data
 	resp, err := http.Get(string(url))
 	if err != nil {
-		errorMessage := fmt.Errorf("error - HTML retrieve data: %v - %s", err, url)
-		return "", errorMessage
+		return "", fmt.Errorf("error - HTML retrieve data: %v - %s", err, url)
 	}
 	// Validate HTML response
 	if resp.StatusCode > 299 {
-		errorMessage := fmt.Errorf("error - HTML Non 200 status code: %v - %s", resp.StatusCode, url)
-		return "", errorMessage
+		return "", fmt.Errorf("error - HTML non-200 status code: %v - %s", resp.StatusCode, url)
 	}
 	// Extract HTML body
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		errorMessage := fmt.Errorf("error - HTML extracting html body: %v - %s", err, url)
-		return "", errorMessage
+		return "", fmt.Errorf("error - HTML extracting html body: %v - %s", err, url)
 	}
 	return string(body), err
 }
