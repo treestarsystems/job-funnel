@@ -16,12 +16,12 @@ func FetchRss(url string) (string, error) {
 	}
 	client, err := cf.New()
 	if err != nil {
-		errorMessage := fmt.Errorf("error - Rss Client creation: %v", err)
+		errorMessage := fmt.Errorf("error - Rss Client creation: %v - %s", err, url)
 		return "", errorMessage
 	}
 	response, err := client.Get(url, cf.M{})
 	if err != nil {
-		errorMessage := fmt.Errorf("error - Rss Client GET Request: %v", err)
+		errorMessage := fmt.Errorf("error - Rss Client GET Request: %v - %s", err, url)
 		return "", errorMessage
 	}
 	body := response.Body

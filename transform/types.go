@@ -2,6 +2,7 @@ package transform
 
 import (
 	"encoding/xml"
+	"net/mail"
 	"time"
 
 	"gorm.io/datatypes"
@@ -53,4 +54,21 @@ type Weworkremotely_comRss struct {
 			Link        string `xml:"link"`
 		} `xml:"item" json:"item,omitempty"`
 	} `xml:"channel" json:"channel,omitempty"`
+}
+
+// EmailMessage represents a parsed email message.
+type EmailMessage struct {
+	EmailSubject     string
+	EmailFrom        *mail.Address
+	EmailTo          []*mail.Address
+	EmailDate        string
+	EmailHTML        string
+	EmailPlainText   string
+	EmailAttachments []EmailAttachment
+}
+
+// Attachment represents an email attachment.
+type EmailAttachment struct {
+	EmailAttachmentFilename string
+	EmailAttachmentContent  []byte
 }
