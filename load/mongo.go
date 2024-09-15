@@ -44,7 +44,7 @@ func loadDbDataToMongoDb(data types.JobPost) error {
 			"database":         data.Database,
 			"company_name":     data.CompanyName,
 			"pay":              data.Pay,
-			"location":         data.WorkLocation,
+			"work_location":    data.WorkLocation,
 			"links":            data.Links,
 			"created_at":       data.CreatedAt,
 			"updated_at":       data.UpdatedAt,
