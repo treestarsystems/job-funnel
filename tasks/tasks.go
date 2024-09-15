@@ -11,7 +11,7 @@ func InitTasks() {
 }
 
 func Weworkremotely_comRss() {
-	fmt.Println("Cron: Weworkremotely.com - Executing RSS Feed Job.")
+	fmt.Println("Task: Weworkremotely.com - Executing RSS Feed Job.")
 	jobs, err := transform.Weworkremotely_comCreateJobPostsRss("https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss")
 	if err != nil {
 		fmt.Println(err)
@@ -19,5 +19,5 @@ func Weworkremotely_comRss() {
 	for _, job := range jobs {
 		load.LoadDbData(job)
 	}
-	fmt.Println("Cron: Weworkremotely.com - Execution Complete!")
+	fmt.Println("Task: Weworkremotely.com - Execution Complete!")
 }
