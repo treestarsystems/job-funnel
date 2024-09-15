@@ -33,7 +33,7 @@ func ParseCityOrState(text string) []string {
 	return matches
 }
 
-func ParseJobLocation(text string) []string {
+func ParseJobWorkLocation(text string) []string {
 	// Define a regex pattern to match common city or state patterns
 	re := regexp.MustCompile(`(?i)\b(remote|hybrid|on.*site)\b`)
 

@@ -4,6 +4,7 @@ import (
 	"job-funnel/api"
 	"job-funnel/cron"
 	"job-funnel/load"
+	"job-funnel/tasks"
 	"log"
 	"os"
 
@@ -17,7 +18,7 @@ func main() {
 		log.Fatalf("error - Error loading .env file: %s", err)
 	}
 
-	// Connect to the database
+	// Connect to the databases
 	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
 		load.LoadDbConnectToSqlite()
 	}
@@ -25,6 +26,9 @@ func main() {
 	if os.Getenv("DB_MONGODB_ENABLE") == "true" {
 		load.LoadDbConnectToMongoDb()
 	}
+
+	// Initial run of tasks on startup
+	tasks.InitTasks()
 
 	// Initialize cron jobs
 	cron.InitCron()

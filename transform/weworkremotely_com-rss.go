@@ -46,7 +46,7 @@ func Weworkremotely_comCreateJobPostsRss(feedURL string) ([]JobPost, error) {
 		database := utils.ParseDatabaseTypes(description)
 		pay := utils.ParseSalaries(description)
 		links := utils.ParseNonImageLinks(description)
-		location := utils.ParseJobLocation(description)
+		workLocation := utils.ParseJobWorkLocation(description)
 		job := JobPost{
 			JobTitle:        item.Title,
 			Description:     description,
@@ -55,7 +55,7 @@ func Weworkremotely_comCreateJobPostsRss(feedURL string) ([]JobPost, error) {
 			Database:        database,
 			CompanyName:     "",
 			Pay:             pay,
-			Location:        location,
+			WorkLocation:    workLocation,
 			Links:           links,
 		}
 		jobs = append(jobs, job)

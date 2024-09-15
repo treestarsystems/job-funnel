@@ -6,7 +6,6 @@ import (
 )
 
 func LoadDbData(data transform.JobPost) {
-
 	// Upsert job posts to the database
 	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
 		loadDbDataToSqlite(data)
