@@ -2,7 +2,7 @@ package load
 
 import (
 	"context"
-	"job-funnel/types"
+	"job-funnel/utils"
 	"log"
 	"os"
 
@@ -33,7 +33,7 @@ func LoadDbConnectToMongoDb() {
 	collectionMongo = ClientMongo.Database(mongoDbName).Collection(mongoDbCollectionName)
 }
 
-func loadDbDataToMongoDb(data types.JobPost) error {
+func loadDbDataToMongoDb(data utils.JobPost) error {
 	filter := bson.M{"job_title": data.JobTitle}
 	update := bson.M{
 		"$set": bson.M{

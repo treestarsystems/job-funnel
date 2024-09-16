@@ -5,13 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"job-funnel/types"
+	"job-funnel/utils"
 	"net/http"
 	"time"
 )
 
 // MakeAPICall makes an API call to the specified URL with the given method and payload.
-func FetchAPIResponse(url, method string, payload interface{}) (*types.APIResponse, error) {
+func FetchAPIResponse(url, method string, payload interface{}) (*utils.APIResponse, error) {
 	// Convert payload to JSON
 	var jsonPayload []byte
 	var err error
@@ -51,7 +51,7 @@ func FetchAPIResponse(url, method string, payload interface{}) (*types.APIRespon
 	}
 
 	// Parse the response body into APIResponse
-	var apiResponse types.APIResponse
+	var apiResponse utils.APIResponse
 	err = json.Unmarshal(body, &apiResponse)
 	if err != nil {
 		return nil, fmt.Errorf("error - API unmarshaling response: %v - %s", err, url)
