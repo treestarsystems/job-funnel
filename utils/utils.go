@@ -48,7 +48,7 @@ func ParseJobWorkLocation(text string) []string {
 // Parses programming languages from the given string.
 func ParseCommonProgrammingLanguages(text string) []string {
 	// Define a regex pattern to match common programming languages
-	re := regexp.MustCompile(`(?i)\b(node.*js|java|python|javascript|c\+\+|c#|ruby|go|swift|kotlin|php|typescript|rust|scala|perl|haskell|r|objective-c|dart|lua|matlab|groovy|shell|powershell|visual.*basic|assembly|cobol|fortran|pascal|ada|lisp|scheme|prolog|erlang|elixir|f#|ocaml|clojure|julia|vhdl|verilog|solidity|sql|pl/sql|t-sql|sas|spss|stata|racket|smalltalk|abap|actionscript|apex|awk|bash|batch|bc|brainfuck|caml|chapel|clean|clipper|cmake|cobol|coffeescript|crystal|curl|dcl|dylan|eiffel|emacs.*lisp|euphoria|forth|gams|gap|gdl|gdscript|gml|gnuplot|idl|jscript|labview|ladder.*logic|livecode|logo|m4|max/msp|mercury|ml|modula-2|mumps|natural|nim|nxc|opencl|openedge.*abl|openscad|p4|pike|pl/i|postscript|pure.*data|racket|raku|rexx|ring|s-lang|sml|spark|spin|tcl|turing|vala|vbscript|vim.*script|wolfram|x10|xbase|xojo|zig)\b`)
+	re := regexp.MustCompile(`(?i)\b(node\s?js|java|python|javascript|c\+\+|c#|ruby|go|swift|kotlin|php|typescript|rust|scala|perl|haskell|r|objective-c|dart|lua|matlab|groovy|shell|powershell|visual\s?basic|assembly|cobol|fortran|pascal|ada|lisp|scheme|prolog|erlang|elixir|f#|ocaml|clojure|julia|vhdl|verilog|solidity|sql|pl\/sql|t-sql|sas|spss|stata|racket|smalltalk|abap|actionscript|apex|awk|bash|batch|bc|brainfuck|caml|chapel|clean|clipper|cmake|cobol|coffeescript|crystal|curl|dcl|dylan|eiffel|emacs\s?lisp|euphoria|forth|gams|gap|gdl|gdscript|gml|gnuplot|idl|jscript|labview|ladder\s?logic|livecode|logo|m4|max\/msp|mercury|ml|modula((?:\s|-)2)?|mumps|natural|nim|nxc|opencl|openedge\s?abl|openscad|p4|pike|pl/i|postscript|pure\s?data|racket|raku|rexx|ring|s-lang|sml|spark|spin|tcl|turing|vala|vbscript|vim\s?script|wolfram|x10|xbase|xojo|zig)\b`)
 
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
@@ -61,7 +61,7 @@ func ParseCommonProgrammingLanguages(text string) []string {
 // Parses database types from the given string in a case-insensitive manner.
 func ParseCommonFrameworks(text string) []string {
 	// Define a regex pattern to match common coding frameworks
-	re := regexp.MustCompile(`(?i)\b(react|angular|vue.*js|django|flask|spring|express|ruby.*on.*rails|rails|laravel|asp.*net|\.net|dotnet|symfony|svelte|ember.*js|backbone.*js|meteor|next.*js|nuxt.*js|gatsby|bootstrap|foundation|tailwind.*css|jquery|redux|nestjs|koa|fastapi|phoenix|play|struts|blade|gin|beego|echo|fiber|rocket|actix|tornado|bottle|pyramid|cherrypy|hug|falcon|sanic|fastify|hapi|loopback|feathers|adonisjs|sails|aurelia|alpine.*js|stimulus|litelement|stencil|nest.*js)\b`)
+	re := regexp.MustCompile(`(?i)\b(react|angular|vue\s?js|django|flask|spring|express|ruby\son\srails|rails|laravel|asp\s?net|\.?net|dotnet|symfony|svelte|ember\s?js|backbone\s?js|meteor|next\s?js|nuxt\s?js|gatsby|bootstrap|foundation|tailwind\s?css|jquery|redux|nestjs|koa|fastapi|phoenix|play|struts|blade|gin|beego|echo|fiber|rocket|actix|tornado|bottle|pyramid|cherrypy|hug|falcon|sanic|fastify|hapi|loopback|feathers|adonisjs|sails|aurelia|alpine\s?js|stimulus|litelement|stencil|nest\s?js)\b`)
 
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
@@ -71,10 +71,10 @@ func ParseCommonFrameworks(text string) []string {
 	return DeduplicateSliceContents(matches).([]string)
 }
 
-// Parses database types from the given string in a case-insensitive manner.
+// // Parses database types from the given string in a case-insensitive manner.
 func ParseDatabaseTypes(text string) []string {
 	// Define a regex pattern to match common database types (case-insensitive)
-	re := regexp.MustCompile(`(?i)\b(no.*sql|ms.*sql|mysql|postgre.*sql|sqlite|mongodb|oracle|sql.*server|maria.*db|redis|cassandra|elasticsearch|firebase|dynamo.*db|couch.*db|neo4j|hbase|memcached|couchbase|db2|teradata|snowflake|bigquery|amazon.*aurora|amazon.*redshift|google.*cloud.*spanner|microsoft.*access|informix|ingres|interbase|firebird|sybase|volt.*db|greenplum)\b`)
+	re := regexp.MustCompile(`(?i)\b(?:no\s?sql|ms\s?sql|mysql|postgre(?:sql)?|sqlite|mongodb|mongo\s?db|oracle|maria(?:db)?|redis|cassandra|elasticsearch|firebase|dynamo(?:db)?|couch(?:db)?|neo4j|hbase|memcached|couchbase|db2|teradata|snowflake|bigquery|big\s?query|aurora|redshift|cloud\s?spanner|microsoft\s?access|informix|ingres|interbase|firebird|sybase|volt\s?db|voltdb|greenplum)\b`)
 
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
@@ -87,7 +87,7 @@ func ParseDatabaseTypes(text string) []string {
 // Parses database types from the given string in a case-insensitive manner.
 func ParseAWSServiceNames(text string) []string {
 	// Define a regex pattern to match common database types (case-insensitive)
-	re := regexp.MustCompile(`(?i)\b(ec2|s3|rds|lambda|dynamodb|ecs|eks|cloudfront|route.*53|vpc|iam|cloudwatch|sns|sqs|redshift|glue|athena|kinesis|elastic.*beanstalk|cloudformation|elastic.*load.*balancing|sagemaker|fargate|aurora|elasticache|kinesis|step.*functions|appsync|codepipeline|codebuild|codedeploy|codecommit|amplify|lightsail|batch|opsworks|cloudtrail|cloud9|cloudhsm|direct.*connect|elastic.*transcoder|guardduty|inspector|macie|organizations|secrets.*manager|security.*hub|shield|waf|workspaces)\b`)
+	re := regexp.MustCompile(`(?i)\b(?:ec2|s3|rds|lambda|dynamo\s?db|ecs|eks|cloudfront|route\s?53|vpc|iam|cloudwatch|sns|sqs|redshift|glue|athena|kinesis|elastic(?:.*beanstalk|.*load.*balancing|ache)?|cloud\s?formation|sagemaker|fargate|aurora|step\s?functions(s?)|appsync|code(?:pipeline|build|deploy|commit)|amplify|lightsail|batch|opsworks|cloudtrail|cloud\s?9|cloudhsm|direct\s?connect|elastic\s?transcoder|guardduty|inspector|macie|organizations|secrets\s?manager|security\s?hub|shield|waf|workspaces)\b`)
 
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
