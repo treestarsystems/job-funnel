@@ -1,4 +1,6 @@
-![alt text](https://www.prospectpersonnel.co.uk/wp-content/uploads/2018/04/Student-job-search.jpg)
+<p align="center">
+<img src="./job-funnel-logo.jpg" width="512"/>
+</p>
 
-# job-funnel
-An aggregator used to collect job postings and funnel them into communication channels
+# Job-Funnel
+An aggregator used to collect job postings and funnel them into communication channels. Why? Because searching for jobs sucks and I also wanted to write this in GoLang.
