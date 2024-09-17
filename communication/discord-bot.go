@@ -30,7 +30,7 @@ func InitDiscordBot() {
 		fmt.Printf("error - Creating Session Communication:Discord Bot - %v", err)
 	}
 
-	defer discordBotSession.Close()
+	// defer discordBotSession.Close()
 	fmt.Println("Communication:Discord Bot - Online")
 
 	// Listen for ctrl+c
