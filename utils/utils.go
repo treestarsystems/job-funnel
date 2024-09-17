@@ -181,7 +181,7 @@ func JobPostsToString(jobPosts []JobPost) string {
 	// 	sb.WriteString(responseString)
 	// }
 	job := jobPosts[1]
-	responseString := fmt.Sprintf("Title: %s\nSource: %s\nLocation: %s\nLinks:\n%s\n\n", job.JobTitle, job.JobSource, strings.Join(job.WorkLocation, ","), strings.Join(job.Links, "\n"))
+	responseString := fmt.Sprintf("Title: %s\nSource: %s\nLocation: %s\nLanguages: %s\nFrameworks: %s\nDatabase: %s\nLinks:\n%s\n\n", job.JobTitle, job.JobSource, strings.Join(job.WorkLocation, ","), strings.Join(job.CodingLanguage, ","), strings.Join(job.CodingFramework, ","), strings.Join(job.Database, ","), strings.Join(job.Links, "\n"))
 	sb.WriteString(responseString)
 	return sb.String()
 }
