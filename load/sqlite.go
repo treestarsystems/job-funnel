@@ -44,6 +44,7 @@ func loadDbDataToSqlite(data utils.JobPost) {
 
 	// Save = Upsert
 	DB.Table(*TableName).Where(utils.JobPost{JobTitle: data.JobTitle}).Assign(utils.JobPost{
+		JobSource:       data.JobSource,
 		Description:     data.Description,
 		CodingLanguage:  data.CodingLanguage,
 		CodingFramework: data.CodingFramework,
@@ -53,6 +54,7 @@ func loadDbDataToSqlite(data utils.JobPost) {
 		WorkLocation:    data.WorkLocation,
 		Links:           data.Links,
 	}).FirstOrCreate(&utils.JobPost{
+		JobSource:       data.JobSource,
 		Description:     data.Description,
 		CodingLanguage:  data.CodingLanguage,
 		CodingFramework: data.CodingFramework,

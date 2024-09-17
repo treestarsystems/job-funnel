@@ -29,7 +29,8 @@ func main() {
 	}
 
 	if os.Getenv("COMMUNICATION_DISCORD_ENABLE") == "true" {
-		communication.InitDiscordBot()
+		// Start as a non-blocking goroutine
+		go communication.InitDiscordBot()
 	}
 
 	// Initial run of tasks on startup as a non-blocking goroutine

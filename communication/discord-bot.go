@@ -2,6 +2,8 @@ package communication
 
 import (
 	"fmt"
+	"job-funnel/retrieve"
+	"job-funnel/utils"
 	"os"
 
 	"github.com/bwmarrin/discordgo"
@@ -23,8 +25,15 @@ func discordBotMessageHandler(session *discordgo.Session, message *discordgo.Mes
 	if message.Author.ID == discordBotId {
 		return
 	}
-	if message.Content == "hello job bot" {
-		session.ChannelMessageSend(message.ChannelID, "Let's get you hired!")
+	if message.Content == "!jobs" {
+		resultJobPosts := retrieve.RetrieveDataFromSqliteAll()
+		if len(resultJobPosts) == 0 {
+			session.ChannelMessageSend(message.ChannelID, "Sorry no job posts available.")
+		}
+
+		jobPostsResponse := utils.JobPostsToString(resultJobPosts)
+		// session.ChannelMessageSend(message.ChannelID, "Sending jobs")
+		session.ChannelMessageSend(message.ChannelID, jobPostsResponse)
 	}
 }
 
@@ -50,8 +59,6 @@ func InitDiscordBot() {
 		fmt.Printf("error - Creating Session Communication:Discord Bot - %v", err)
 		return
 	}
-
-	<-make(chan struct{})
 
 	fmt.Println("Communication:Discord Bot - Online")
 }

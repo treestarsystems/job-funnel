@@ -48,6 +48,7 @@ func Weworkremotely_comCreateJobPostsRss(feedURL string) ([]utils.JobPost, error
 		links := utils.ParseNonImageLinks(description)
 		workLocation := utils.ParseJobWorkLocation(description)
 		job := utils.JobPost{
+			JobSource:       "https://WeWorkRemotely.com",
 			JobTitle:        item.Title,
 			Description:     description,
 			CodingLanguage:  codingLanguage,

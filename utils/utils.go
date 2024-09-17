@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"reflect"
 	"regexp"
 	"strings"
@@ -171,4 +172,16 @@ func DeduplicateSliceContents(slice interface{}) interface{} {
 	}
 
 	return uniqueSlice.Interface()
+}
+
+func JobPostsToString(jobPosts []JobPost) string {
+	var sb strings.Builder
+	// for _, job := range jobPosts {
+	// 	responseString := fmt.Sprintf("Title: %s\nSource: %s\nLocation: %s\nLinks: %s\n\n", job.JobTitle, job.JobSource, strings.Join(job.WorkLocation, ","), strings.Join(job.Links, "\n"))
+	// 	sb.WriteString(responseString)
+	// }
+	job := jobPosts[1]
+	responseString := fmt.Sprintf("Title: %s\nSource: %s\nLocation: %s\nLinks:\n%s\n\n", job.JobTitle, job.JobSource, strings.Join(job.WorkLocation, ","), strings.Join(job.Links, "\n"))
+	sb.WriteString(responseString)
+	return sb.String()
 }

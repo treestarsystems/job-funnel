@@ -18,6 +18,7 @@ type APIResponse struct {
 
 // SharedStructJobs contains common job information from each job listing.
 type JobPost struct {
+	JobSource       string                      `bson:"job_source" json:"jobSource" binding:"required"`
 	JobTitle        string                      `bson:"job_title" json:"jobTitle" binding:"required"`
 	Description     string                      `bson:"description" json:"description" binding:"required"`
 	CodingLanguage  datatypes.JSONSlice[string] `bson:"coding_language" json:"codingLanguage" binding:"required"`

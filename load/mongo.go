@@ -37,6 +37,7 @@ func loadDbDataToMongoDb(data utils.JobPost) error {
 	filter := bson.M{"job_title": data.JobTitle}
 	update := bson.M{
 		"$set": bson.M{
+			"job_source":       data.JobSource,
 			"job_title":        data.JobTitle,
 			"description":      data.Description,
 			"coding_language":  data.CodingLanguage,
