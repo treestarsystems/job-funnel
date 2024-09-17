@@ -2,6 +2,7 @@ package main
 
 import (
 	"job-funnel/api"
+	"job-funnel/communication"
 	"job-funnel/cron"
 	"job-funnel/load"
 	"job-funnel/tasks"
@@ -27,6 +28,10 @@ func main() {
 		load.LoadDbConnectToMongoDb()
 	}
 
+	if os.Getenv("COMMUNICATION_DISCORD_ENABLE") == "true" {
+		go communication.InitDiscordBot()
+	}
+
 	// Initial run of tasks on startup as a non-blocking goroutine
 	go tasks.InitTasks()
 
@@ -35,4 +40,5 @@ func main() {
 
 	// Start webserver
 	api.StartServer()
+
 }
