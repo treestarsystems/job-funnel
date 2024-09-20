@@ -33,7 +33,7 @@ func LoadDbConnectToMongoDb() {
 	collectionMongo = ClientMongo.Database(mongoDbName).Collection(mongoDbCollectionName)
 }
 
-func loadDbDataToMongoDb(data utils.JobPost) error {
+func loadDbDataToMongoDb(data utils.JobPost, jobId string) error {
 	filter := bson.M{"job_title": data.JobTitle}
 	update := bson.M{
 		"$set": bson.M{
@@ -49,6 +49,9 @@ func loadDbDataToMongoDb(data utils.JobPost) error {
 			"links":            data.Links,
 			"created_at":       data.CreatedAt,
 			"updated_at":       data.UpdatedAt,
+		},
+		"$setOnInsert": bson.M{
+			"job_id": jobId,
 		},
 	}
 	opts := options.Update().SetUpsert(true)

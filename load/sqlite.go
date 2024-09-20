@@ -33,7 +33,7 @@ func LoadDbConnectToSqlite() {
 	DB = db
 }
 
-func loadDbDataToSqlite(data utils.JobPost) {
+func loadDbDataToSqlite(data utils.JobPost, jobId string) {
 	// Need a way to get the correct file path no matter the OS.
 	// This will rerun the connection to the database if the file does not exist.
 	fileName := fmt.Sprintf("./%v", os.Getenv("DB_SQLITE_FILENAME"))
@@ -54,6 +54,7 @@ func loadDbDataToSqlite(data utils.JobPost) {
 		WorkLocation:    data.WorkLocation,
 		Links:           data.Links,
 	}).FirstOrCreate(&utils.JobPost{
+		JobId:           jobId,
 		JobSource:       data.JobSource,
 		Description:     data.Description,
 		CodingLanguage:  data.CodingLanguage,
