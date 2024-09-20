@@ -35,7 +35,7 @@ func discordBotMessageHandler(session *discordgo.Session, message *discordgo.Mes
 			"!applied:<job ID> - Mark a job post as applied so it is not shown in future searches (not available yet)",
 			"!applied:all - Get all job posts that have been marked as applied (not available yet)",
 			"!help - Get a list of commands",
-			"\nNote: \n- Due to message length limitations of 2k characters, I can not return all stored job posts. \n- If you multiple job posts will be returned, the order will be random so you can get different jobs. \n- This bot is still in development.",
+			"\nNote: \n- Due to [message length limitations of 2k characters](https://support.discord.com/hc/en-us/articles/360034632292-Sending-Messages#h_01FSWZRDKD7310TJHGCA616642:~:text=place%20multiple%20emojis%3A-,Character%20Limit,-The%20character%20cap), I can not return all stored job posts. \n- If you multiple job posts will be returned, the order will be random so you can get different jobs. \n- This bot is still in development.",
 		}
 		session.ChannelMessageSend(message.ChannelID, strings.Join(helpMenu, "\n"))
 	}
