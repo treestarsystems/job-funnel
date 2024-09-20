@@ -200,9 +200,10 @@ func JobPostsToStringSingle(jobPosts []JobPost) string {
 	// Create the string representation of the job post
 	var sb strings.Builder
 	responseString := fmt.Sprintf(
-		"Title: %s (ID: %s)\nSource: %s\nLocation: %s\nLanguages: %s\nFrameworks: %s\nDatabase: %s\nLinks:\n%s\n\n",
+		"Title: %s (ID: %s)\nPay (Possibly Inaccurate Parsing): %s\nSource: %s\nLocation: %s\nLanguages: %s\nFrameworks: %s\nDatabase: %s\nLinks:\n%s\n\n",
 		job.JobTitle,
 		job.JobId,
+		strings.Join(job.Pay, ", "),
 		job.JobSource,
 		strings.Join(job.WorkLocation, ", "),
 		strings.Join(job.CodingLanguage, ", "),
@@ -229,9 +230,10 @@ func JobPostsToString(jobPosts []JobPost) string {
 	var sb strings.Builder
 	for _, job := range jobPosts {
 		responseString := fmt.Sprintf(
-			"Title: %s (ID: %s)\nSource: %s\nLocation: %s\nLanguages: %s\nFrameworks: %s\nDatabase: %s\nLinks:\n%s\n\n",
+			"Title: %s (ID: %s)\nPay (Possibly Inaccurate Parsing): %s\nSource: %s\nLocation: %s\nLanguages: %s\nFrameworks: %s\nDatabase: %s\nLinks:\n%s\n\n",
 			job.JobTitle,
 			job.JobId,
+			strings.Join(job.Pay, ", "),
 			job.JobSource,
 			strings.Join(job.WorkLocation, ", "),
 			strings.Join(job.CodingLanguage, ", "),
