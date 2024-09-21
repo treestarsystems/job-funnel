@@ -57,6 +57,7 @@ func InitDiscordBot() {
 		fmt.Printf("error - Getting Session User Communication:Discord Bot - %v", err)
 		return
 	}
+
 	discordBotId = discordBotUser.ID
 	discordBotSession.AddHandler(discordBotMessageHandler)
 
