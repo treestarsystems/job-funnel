@@ -29,7 +29,7 @@ func discordBotSlashCommandHelpMenu() string {
 
 // sendAllJobPosts retrieves all job posts and sends them as a response.
 func sendAllJobPosts(session *discordgo.Session, channelID string) {
-	resultJobPosts := retrieve.RetrieveDataFromSqliteAll()
+	resultJobPosts := retrieve.RetrieveDbFromSqliteAll()
 	if len(resultJobPosts) == 0 {
 		session.ChannelMessageSend(channelID, "Sorry, no job posts available.")
 		return
@@ -40,7 +40,7 @@ func sendAllJobPosts(session *discordgo.Session, channelID string) {
 
 // sendRandomJobPost retrieves all job posts, selects a random one, and sends it as a response.
 func sendRandomJobPost(session *discordgo.Session, channelID string) {
-	resultJobPosts := retrieve.RetrieveDataFromSqliteAll()
+	resultJobPosts := retrieve.RetrieveDbFromSqliteAll()
 	if len(resultJobPosts) == 0 {
 		session.ChannelMessageSend(channelID, "Sorry, no job posts available.")
 		return
@@ -51,7 +51,7 @@ func sendRandomJobPost(session *discordgo.Session, channelID string) {
 
 // searchAndSendJobPosts searches for job posts based on the search term and sends the response.
 func searchAndSendJobPosts(session *discordgo.Session, channelID string, searchTerm string) {
-	resultJobPosts := retrieve.RetrieveDataFromSqliteAll()
+	resultJobPosts := retrieve.RetrieveDbFromSqliteAll()
 	var filteredJobPosts []utils.JobPost
 	for _, job := range resultJobPosts {
 		if strings.Contains(strings.ToLower(job.JobTitle), strings.ToLower(searchTerm)) ||

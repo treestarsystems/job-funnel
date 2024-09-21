@@ -11,26 +11,22 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
-var TableName *string
-var SqliteDbName *string
-
 func LoadDbConnectToSqlite() {
 	tableName := os.Getenv("DB_TABLE_NAME")
 	sqliteDbName := os.Getenv("DB_SQLITE_FILENAME")
-	TableName = &tableName
-	SqliteDbName = &sqliteDbName
+	utils.TableName = &tableName
+	utils.SqliteDbName = &sqliteDbName
 
-	db, err := gorm.Open(sqlite.Open(*SqliteDbName), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(*utils.SqliteDbName), &gorm.Config{})
 	if err != nil {
 		log.Printf("error - SQLite: Unable to establish database connection: %s", err)
 	}
 	// Migrate the schema/Create the table
-	err = db.Table(*TableName).AutoMigrate(&utils.LoadDbInsertGorm{})
+	err = db.Table(*utils.TableName).AutoMigrate(&utils.LoadDbInsertGorm{})
 	if err != nil {
 		log.Printf("error - SQLite: Unable to migrate the schema: %s", err)
 	}
-	DB = db
+	utils.DB = db
 }
 
 func loadDbDataToSqlite(data utils.JobPost, jobId string) {
@@ -43,7 +39,7 @@ func loadDbDataToSqlite(data utils.JobPost, jobId string) {
 	}
 
 	// Save = Upsert
-	DB.Table(*TableName).Where(utils.JobPost{JobTitle: data.JobTitle}).Assign(utils.JobPost{
+	utils.DB.Table(*utils.TableName).Where(utils.JobPost{JobTitle: data.JobTitle}).Assign(utils.JobPost{
 		JobSource:       data.JobSource,
 		Description:     data.Description,
 		CodingLanguage:  data.CodingLanguage,
@@ -64,5 +60,6 @@ func loadDbDataToSqlite(data utils.JobPost, jobId string) {
 		Pay:             data.Pay,
 		WorkLocation:    data.WorkLocation,
 		Links:           data.Links,
+		AppliedToJob:    []string{},
 	})
 }
