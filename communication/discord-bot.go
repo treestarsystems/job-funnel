@@ -20,7 +20,7 @@ func discordBotReadConfig() error {
 }
 
 // ComesFromDM returns true if a message comes from a DM channel
-func comesFromDM(session *discordgo.Session, message *discordgo.MessageCreate) (bool, error) {
+func discordBotComesFromDM(session *discordgo.Session, message *discordgo.MessageCreate) (bool, error) {
 	channel, err := session.State.Channel(message.ChannelID)
 	if err != nil {
 		if channel, err = session.Channel(message.ChannelID); err != nil {
@@ -36,7 +36,7 @@ func discordBotMessageHandler(session *discordgo.Session, message *discordgo.Mes
 		return
 	}
 
-	isDirectMessage, _ := comesFromDM(session, message)
+	isDirectMessage, _ := discordBotComesFromDM(session, message)
 	if isDirectMessage == true {
 		// Send a reply to the direct message
 		discordBotSlashCommands(session, message)

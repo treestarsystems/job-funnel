@@ -18,8 +18,11 @@ func discordBotSlashCommandHelpMenu() string {
 		"!job:search <search term as single word no spaces> - Get some job posts that match the search string (see notes below)",
 		"!applied:<job ID> - Mark a job post as applied so it is not shown in future searches (not available yet)",
 		"!applied:all - Get all job posts that have been marked as applied (not available yet)",
-		"!help - Get a list of commands",
-		"\nNote: \n- Due to [message length limitations of 2k characters](https://support.discord.com/hc/en-us/articles/360034632292-Sending-Messages#h_01FSWZRDKD7310TJHGCA616642:~:text=place%20multiple%20emojis%3A-,Character%20Limit,-The%20character%20cap), I can not return all stored job posts. \n- If multiple job posts will be returned, the order will be random so you can get different jobs. \n- This bot is still in development.",
+		"!help - Get a list of commands\n",
+		"Note:",
+		"- Due to [message length limitations of 2k characters](https://support.discord.com/hc/en-us/articles/360034632292-Sending-Messages#h_01FSWZRDKD7310TJHGCA616642:~:text=place%20multiple%20emojis%3A-,Character%20Limit,-The%20character%20cap), I can not return all stored job posts.",
+		"- If multiple job posts will be returned, the order will be random so you can get different jobs.",
+		"- This bot is still in development.",
 	}
 	return strings.Join(helpMenu, "\n")
 }
@@ -70,13 +73,13 @@ func searchAndSendJobPosts(session *discordgo.Session, channelID string, searchT
 
 func discordBotSlashCommands(session *discordgo.Session, message *discordgo.MessageCreate) {
 	appliedRegex := regexp.MustCompile(`^!applied:[a-zA-Z0-9]{20}$`)
-	jobSearchRegex := regexp.MustCompile(`^!job(s)?:(all|random|search )`)
+	jobSearchRegex := regexp.MustCompile(`^!job(s)?:(some|random|search )`)
 
 	switch {
 	case message.Content == "!help":
 		session.ChannelMessageSend(message.ChannelID, discordBotSlashCommandHelpMenu())
 	case jobSearchRegex.MatchString(message.Content):
-		if strings.Contains(message.Content, ":all") {
+		if strings.Contains(message.Content, ":some") {
 			sendAllJobPosts(session, message.ChannelID)
 		}
 		if strings.Contains(message.Content, ":random") {
