@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./job-funnel-logo.jpg" width="512"/>
+<img src="./job-funnel-logo.jpg" width="256"/>
 </p>
 
 # Job-Funnel
