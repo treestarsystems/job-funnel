@@ -70,21 +70,26 @@ func searchAndSendJobPosts(session *discordgo.Session, channelID string, searchT
 
 func discordBotSlashCommands(session *discordgo.Session, message *discordgo.MessageCreate) {
 	appliedRegex := regexp.MustCompile(`^!applied:[a-zA-Z0-9]{20}$`)
+	jobSearchRegex := regexp.MustCompile(`^!job(s)?:(all|random|search )`)
 
 	switch {
 	case message.Content == "!help":
 		session.ChannelMessageSend(message.ChannelID, discordBotSlashCommandHelpMenu())
-	case message.Content == "!job:all":
-		sendAllJobPosts(session, message.ChannelID)
-	case message.Content == "!job:random":
-		sendRandomJobPost(session, message.ChannelID)
-	case message.Content == "!job:search ":
-		searchTerm := strings.TrimPrefix(message.Content, "!job:search ")
-		searchAndSendJobPosts(session, message.ChannelID, searchTerm)
+	case jobSearchRegex.MatchString(message.Content):
+		if strings.Contains(message.Content, ":all") {
+			sendAllJobPosts(session, message.ChannelID)
+		}
+		if strings.Contains(message.Content, ":random") {
+			sendRandomJobPost(session, message.ChannelID)
+		}
+		if strings.Contains(message.Content, ":search ") {
+			searchTerm := jobSearchRegex.ReplaceAllString(message.Content, "")
+			searchAndSendJobPosts(session, message.ChannelID, searchTerm)
+		}
 	case message.Content == "!applied:all":
 		session.ChannelMessageSend(message.ChannelID, "Feature not available yet.")
 	case appliedRegex.MatchString(message.Content):
 		jobId := strings.Split(message.Content, ":")[1]
-		session.ChannelMessageSend(message.ChannelID, fmt.Sprintf("Feature not available yet. ID: %s", jobId))
+		session.ChannelMessageSend(message.ChannelID, fmt.Sprintf("Feature not available yet. Job ID: %s", jobId))
 	}
 }

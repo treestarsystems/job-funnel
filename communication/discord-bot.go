@@ -19,12 +19,28 @@ func discordBotReadConfig() error {
 	return nil
 }
 
+// ComesFromDM returns true if a message comes from a DM channel
+func comesFromDM(session *discordgo.Session, message *discordgo.MessageCreate) (bool, error) {
+	channel, err := session.State.Channel(message.ChannelID)
+	if err != nil {
+		if channel, err = session.Channel(message.ChannelID); err != nil {
+			return false, err
+		}
+	}
+	return channel.Type == discordgo.ChannelTypeDM, nil
+}
+
 // MessageHandler handles messages sent to the Discord bot
 func discordBotMessageHandler(session *discordgo.Session, message *discordgo.MessageCreate) {
 	if message.Author.ID == discordBotId {
 		return
 	}
-	discordBotSlashCommands(session, message)
+
+	isDirectMessage, _ := comesFromDM(session, message)
+	if isDirectMessage == true {
+		// Send a reply to the direct message
+		discordBotSlashCommands(session, message)
+	}
 }
 
 // InitDiscordBot initializes the Discord bot
@@ -44,7 +60,6 @@ func InitDiscordBot() {
 	discordBotId = discordBotUser.ID
 	discordBotSession.AddHandler(discordBotMessageHandler)
 
-	// discordBotSession.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
 	err = discordBotSession.Open()
 	if err != nil {
 		fmt.Printf("error - Creating Session Communication:Discord Bot - %v", err)
