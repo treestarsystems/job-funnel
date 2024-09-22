@@ -6,28 +6,7 @@ import (
 	"job-funnel/utils"
 	"log"
 	"os"
-
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
 )
-
-func LoadDbConnectToSqlite() {
-	tableName := os.Getenv("DB_TABLE_NAME")
-	sqliteDbName := os.Getenv("DB_SQLITE_FILENAME")
-	utils.TableName = &tableName
-	utils.SqliteDbName = &sqliteDbName
-
-	db, err := gorm.Open(sqlite.Open(*utils.SqliteDbName), &gorm.Config{})
-	if err != nil {
-		log.Printf("error - SQLite: Unable to establish database connection: %s\n", err)
-	}
-	// Migrate the schema/Create the table
-	err = db.Table(*utils.TableName).AutoMigrate(&utils.LoadDbInsertGorm{})
-	if err != nil {
-		log.Printf("error - SQLite: Unable to migrate the schema: %s\n", err)
-	}
-	utils.DB = db
-}
 
 func loadDbDataToSqlite(data utils.JobPost, jobId string) {
 	// TODO: Need a way to get the correct file path no matter the OS.
@@ -35,7 +14,7 @@ func loadDbDataToSqlite(data utils.JobPost, jobId string) {
 	fileName := fmt.Sprintf("./%v", os.Getenv("DB_SQLITE_FILENAME"))
 	if _, err := os.Stat(fileName); errors.Is(err, os.ErrNotExist) {
 		log.Printf("info - SQLite: Database file does not exist, recreating...\n")
-		LoadDbConnectToSqlite()
+		utils.LoadDbConnectToSqlite()
 	}
 
 	// Save = Upsert

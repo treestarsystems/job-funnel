@@ -4,7 +4,7 @@ import (
 	"job-funnel/api"
 	"job-funnel/communication"
 	"job-funnel/cron"
-	"job-funnel/load"
+	"job-funnel/utils"
 	"log"
 	"os"
 
@@ -20,11 +20,11 @@ func main() {
 
 	// Connect to the databases
 	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
-		load.LoadDbConnectToSqlite()
+		utils.LoadDbConnectToSqlite()
 	}
 
 	if os.Getenv("DB_MONGODB_ENABLE") == "true" {
-		load.LoadDbConnectToMongoDb()
+		utils.LoadDbConnectToMongoDb()
 	}
 
 	if os.Getenv("COMMUNICATION_DISCORD_ENABLE") == "true" {
