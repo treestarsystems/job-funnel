@@ -41,7 +41,7 @@ func sendAllJobPosts(session *discordgo.Session, channelID string) {
 
 // sendRandomJobPost retrieves all job posts, selects a random one, and sends it as a response.
 func sendRandomJobPost(session *discordgo.Session, channelID string) {
-	resultJobPosts := retrieve.RetrieveDbDataAll()
+	resultJobPosts := retrieve.RetrieveDbDataRandom()
 	if len(resultJobPosts) == 0 {
 		session.ChannelMessageSend(channelID, "Sorry, no job posts available.")
 		return
@@ -51,7 +51,7 @@ func sendRandomJobPost(session *discordgo.Session, channelID string) {
 }
 
 // searchAndSendJobPosts searches for job posts based on the search term and sends the response.
-func searchAndSendJobPosts(session *discordgo.Session, channelID string, searchTerm string) {
+func sendSearchResultsJobPosts(session *discordgo.Session, channelID string, searchTerm string) {
 	resultJobPosts := retrieve.RetrieveDbDataSearch(searchTerm)
 	if len(resultJobPosts) == 0 {
 		session.ChannelMessageSend(channelID, "Sorry, no job posts found matching the search term.")
@@ -78,7 +78,7 @@ func discordBotSlashCommands(session *discordgo.Session, message *discordgo.Mess
 		}
 		if strings.Contains(message.Content, ":search ") {
 			searchTerm := jobSearchRegex.ReplaceAllString(message.Content, "")
-			searchAndSendJobPosts(session, message.ChannelID, searchTerm)
+			sendSearchResultsJobPosts(session, message.ChannelID, searchTerm)
 		}
 	case message.Content == "!applied:all":
 		session.ChannelMessageSend(message.ChannelID, "Feature not available yet.")

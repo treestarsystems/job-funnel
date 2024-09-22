@@ -59,3 +59,16 @@ func retrieveDbFromSqliteSearch(searchTerm string) ([]utils.JobPost, error) {
 
 	return jobPosts, nil
 }
+
+// retrieveDbFromSqliteRandom retrieves one random job post from the SQLite database.
+func retrieveDbFromSqliteRandom() ([]utils.JobPost, error) {
+	var jobPosts []utils.JobPost
+
+	// Perform the query to retrieve one random row
+	err := utils.DB.Table(*utils.TableName).Order("RANDOM()").Limit(1).Find(&jobPosts).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return jobPosts, nil
+}

@@ -18,6 +18,7 @@ func RetrieveDbDataAll() []utils.JobPost {
 	}
 
 	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
+		log.Print("info - SQLite: Retrieving all job posts from SQLite database.")
 		return retrieveDbFromSqliteAll()
 	}
 	return []utils.JobPost{}
@@ -38,6 +39,29 @@ func RetrieveDbDataSearch(searchTerm string) []utils.JobPost {
 
 	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
 		resultJobPosts, err := retrieveDbFromSqliteSearch(searchTerm)
+		if err != nil {
+			log.Print(err)
+			return []utils.JobPost{}
+		}
+		return resultJobPosts
+	}
+	return []utils.JobPost{}
+}
+
+// RetrieveDbDataAll is wrapper for MongoDB and SQLite find methods.
+func RetrieveDbDataRandom() []utils.JobPost {
+
+	if os.Getenv("DB_MONGODB_ENABLE") == "true" {
+		resultJobPosts, err := retrieveDbFromMongoDbRandom()
+		if err != nil {
+			log.Print(err)
+		}
+		return resultJobPosts
+	}
+
+	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
+		log.Print("info - SQLite: Retrieving random job post from SQLite database.")
+		resultJobPosts, err := retrieveDbFromSqliteRandom()
 		if err != nil {
 			log.Print(err)
 			return []utils.JobPost{}

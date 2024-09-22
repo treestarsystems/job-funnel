@@ -7,18 +7,30 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-// queryMongoDb performs a query on the MongoDB collection and returns the results.
-func retrieveDbFromMongoDbQuery(filter bson.M) ([]utils.JobPost, error) {
+// retrieveDbFromMongoDbQuery performs a query on the MongoDB collection and returns the results.
+func retrieveDbFromMongoDbQuery(filter interface{}) ([]utils.JobPost, error) {
 	var jobPosts []utils.JobPost
 
 	// Set a context with a timeout for the query
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	// Perform the search query
-	cursor, err := utils.CollectionMongo.Find(ctx, filter)
+	var cursor *mongo.Cursor
+	var err error
+
+	// Perform the search query based on the type of filter
+	switch f := filter.(type) {
+	case bson.M:
+		cursor, err = utils.CollectionMongo.Find(ctx, f)
+	case mongo.Pipeline:
+		cursor, err = utils.CollectionMongo.Aggregate(ctx, f)
+	default:
+		return nil, fmt.Errorf("error - MongoDB: Unsupported filter type: %T", filter)
+	}
+
 	if err != nil {
 		return nil, fmt.Errorf("error - MongoDB: Unable to perform search query: %w", err)
 	}
@@ -70,6 +82,20 @@ func retrieveDbFromMongoDbSearch(searchTerm string) ([]utils.JobPost, error) {
 	}
 
 	resultJobPosts, err := retrieveDbFromMongoDbQuery(filter)
+	if err != nil {
+		return nil, fmt.Errorf("error - MongoDB: Unable to perform search query: %w", err)
+	}
+	return resultJobPosts, nil
+}
+
+// RetrieveRandomJobPostFromMongoDb retrieves one random job post from the MongoDB collection.
+func retrieveDbFromMongoDbRandom() ([]utils.JobPost, error) {
+	// Define the aggregation pipeline with the $sample stage
+	pipeline := mongo.Pipeline{
+		{{Key: "$sample", Value: bson.D{{Key: "size", Value: 1}}}},
+	}
+
+	resultJobPosts, err := retrieveDbFromMongoDbQuery(pipeline)
 	if err != nil {
 		return nil, fmt.Errorf("error - MongoDB: Unable to perform search query: %w", err)
 	}
