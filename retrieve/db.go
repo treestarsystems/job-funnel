@@ -9,11 +9,13 @@ import (
 // RetrieveDbDataAll is wrapper for MongoDB and SQLite find methods.
 func RetrieveDbDataAll() []utils.JobPost {
 
-	// Upsert job posts to the database
-	// if os.Getenv("DB_MONGODB_ENABLE") == "true" {
-	// 	// loadDbDataToMongoDb(data, jobId)
-	// 	return []utils.JobPost{}
-	// }
+	if os.Getenv("DB_MONGODB_ENABLE") == "true" {
+		resultJobPosts, err := retrieveDbFromMongoDbAll()
+		if err != nil {
+			log.Print(err)
+		}
+		return resultJobPosts
+	}
 
 	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
 		return retrieveDbFromSqliteAll()

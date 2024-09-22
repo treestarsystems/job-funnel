@@ -30,7 +30,7 @@ func LoadDbConnectToSqlite() {
 }
 
 func loadDbDataToSqlite(data utils.JobPost, jobId string) {
-	// Need a way to get the correct file path no matter the OS.
+	// TODO: Need a way to get the correct file path no matter the OS.
 	// This will rerun the connection to the database if the file does not exist.
 	fileName := fmt.Sprintf("./%v", os.Getenv("DB_SQLITE_FILENAME"))
 	if _, err := os.Stat(fileName); errors.Is(err, os.ErrNotExist) {
