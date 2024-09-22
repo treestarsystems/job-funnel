@@ -13,8 +13,11 @@ import (
 )
 
 func main() {
+	// Initialize and check for command line flags
+	utils.InitCommandLineFlags()
+
 	// Load environment variables
-	err := godotenv.Load()
+	err := godotenv.Load(utils.EnvFilePath)
 	if err != nil {
 		log.Fatalf("error - Error loading .env file: %s", err)
 	}

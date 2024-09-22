@@ -12,14 +12,16 @@ An aggregator used to collect job postings and funnel them into communication ch
 - Properly formatted .env file (see below)
 
 ## Installation
+This will build the binary in the destination directory.
 ```bash
 git clone https://github.com/treestarsystems/job-funnel.git
 cd ./job-funnel
 go build -o <destination dire>job-funnel
 ```
 
-This will build the binary in the destination directory.
-It requires a .env file in the same directory your are executing the compiled binary with the following variables:
+To run this app it requires an .env file in the same directory or you must specify a path (Ex: -e=/path/to/.env) to a .env file. 
+
+The .env file should be formatted as follows (example included repository):
 ```bash
 # .env
 PORT="8080"
@@ -35,9 +37,15 @@ COMMUNICATION_DISCORD_BOT_TOKEN="<token>"
 ```
 
 ## Usage
+
+Without -e flag, the program will use the .env file in the same directory
 ```bash
-./<destination>/job-funnel 
-#
+./<destination>/job-funnel
+```
+
+With -e flag, the program will use the .env file at the specified path
+```bash
+./<destination>/job-funnel -e=/path/to/.env
 ```
 
 <p align="center">
