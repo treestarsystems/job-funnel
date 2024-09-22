@@ -26,3 +26,7 @@ go.work.sum
 
 # SQLite database file
 *.db
+
+# Ignore all .bkp files
+*.bkp
+.DS_Store

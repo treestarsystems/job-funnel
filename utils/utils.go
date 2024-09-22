@@ -1,10 +1,14 @@
 package utils
 
 import (
+	"fmt"
+	"math/rand"
 	"reflect"
 	"regexp"
 	"strings"
 )
+
+const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 // Parses all salary information from the given string.
 func ParseSalaries(text string) []string {
@@ -14,7 +18,7 @@ func ParseSalaries(text string) []string {
 	// Find all matches in the text
 	matches := re.FindAllString(text, -1)
 	if len(matches) == 0 {
-		return []string{}
+		return []string{"Salary/Pay not found in the job post."}
 	}
 	return matches
 }
@@ -171,4 +175,69 @@ func DeduplicateSliceContents(slice interface{}) interface{} {
 	}
 
 	return uniqueSlice.Interface()
+}
+
+// JobPostsToString converts a slice of JobPost to a string representation of a random job post.
+func JobPostsToStringSingle(jobPosts []JobPost) string {
+	if len(jobPosts) == 0 {
+		return "No job posts available."
+	}
+
+	// Pick a random job post
+	randomIndex := rand.Intn(len(jobPosts))
+	job := jobPosts[randomIndex]
+
+	// Create the string representation of the job post
+	var sb strings.Builder
+	responseString := FormatJobPost(job)
+	sb.WriteString(responseString)
+
+	return sb.String()
+}
+
+// ShuffleJobPosts shuffles the slice of JobPost.
+func ShuffleJobPosts(jobPosts []JobPost) {
+	rand.Shuffle(len(jobPosts), func(i, j int) {
+		jobPosts[i], jobPosts[j] = jobPosts[j], jobPosts[i]
+	})
+}
+
+// JobPostsToString converts a slice of JobPost to a string representation, randomizes the order, and truncates the final string at 8000 characters.
+func JobPostsToString(jobPosts []JobPost) string {
+	ShuffleJobPosts(jobPosts)
+
+	var sb strings.Builder
+	for _, job := range jobPosts {
+		responseString := FormatJobPost(job)
+		if sb.Len()+len(responseString) > 2000 {
+			break
+		}
+		sb.WriteString(responseString)
+	}
+	return sb.String()
+}
+
+// RandomString generates a random string of the specified length.
+func RandomAplhaNumericString(length int) string {
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[rand.Intn(len(charset))]
+	}
+	return string(b)
+}
+
+// FormatJobPost formats a JobPost into a string representation.
+func FormatJobPost(job JobPost) string {
+	return fmt.Sprintf(
+		"Title: %s (ID: %s)\nPay (Expect Parsing Inaccuracies): %s\nSource: %s\nLocation: %s\nLanguages: %s\nFrameworks: %s\nDatabase: %s\nLinks:\n%s\n\n",
+		job.JobTitle,
+		job.JobId,
+		strings.Join(job.Pay, ", "),
+		job.JobSource,
+		strings.Join(job.WorkLocation, ", "),
+		strings.Join(job.CodingLanguage, ", "),
+		strings.Join(job.CodingFramework, ", "),
+		strings.Join(job.Database, ", "),
+		strings.Join(job.Links, "\n"),
+	)
 }

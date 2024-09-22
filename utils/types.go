@@ -18,6 +18,8 @@ type APIResponse struct {
 
 // SharedStructJobs contains common job information from each job listing.
 type JobPost struct {
+	JobId           string                      `bson:"job_id" json:"jobId" binding:"required"`
+	JobSource       string                      `bson:"job_source" json:"jobSource" binding:"required"`
 	JobTitle        string                      `bson:"job_title" json:"jobTitle" binding:"required"`
 	Description     string                      `bson:"description" json:"description" binding:"required"`
 	CodingLanguage  datatypes.JSONSlice[string] `bson:"coding_language" json:"codingLanguage" binding:"required"`
@@ -26,7 +28,8 @@ type JobPost struct {
 	CompanyName     string                      `bson:"company_name" json:"companyName" binding:"required"`
 	Pay             datatypes.JSONSlice[string] `bson:"pay" json:"pay" binding:"required"`
 	WorkLocation    datatypes.JSONSlice[string] `bson:"work_location" json:"workLocation" binding:"required"`
-	Links           datatypes.JSONSlice[string] `bson:"link" json:"link" binding:"required"`
+	Links           datatypes.JSONSlice[string] `bson:"links" json:"links" binding:"required"`
+	AppliedToJob    datatypes.JSONSlice[string] `bson:"applied_to_job" json:"appliedToJob" binding:"required"`
 	CreatedAt       time.Time                   `bson:"created_at" json:"createdAt" binding:"required"`
 	UpdatedAt       time.Time                   `bson:"updated_at" json:"updatedAt" binding:"required"`
 }
