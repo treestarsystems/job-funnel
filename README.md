@@ -12,16 +12,18 @@ An aggregator used to collect job postings and funnel them into communication ch
 - Properly formatted .env file (see below)
 
 ## Installation
-This will build the binary in the destination directory.
+This will build the binary in the destination directory. I suggest you run this app in it's own directory as it will create a SQLite database file in the same directory. 
+
+##### Note: This may change in the future to allow for a specified path for the SQLite database file.
 ```bash
 git clone https://github.com/treestarsystems/job-funnel.git
-cd ./job-funnel
-go build -o <destination dire>job-funnel
+cd ./job-funnel/
+go build -o <destination dir>job-funnel
+cd <destination dir>
 ```
-
 To run this app it requires an .env file in the same directory or you must specify a path (Ex: -e=/path/to/.env) to a .env file. 
 
-The .env file should be formatted as follows (example included repository):
+The .env file should be formatted as follows (template included repository):
 ```bash
 # .env
 PORT="8080"
@@ -47,6 +49,9 @@ With -e flag, the program will use the .env file at the specified path
 ```bash
 ./<destination>/job-funnel -e=/path/to/.env
 ```
+
+## Progress
+#### *Green = Completed
 
 <p align="center">
 <img src="./job-search.drawio.svg" width="512"/>
