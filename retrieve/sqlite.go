@@ -9,13 +9,13 @@ import (
 	"strings"
 )
 
-func RetrieveDbFromSqliteAll() []utils.JobPost {
+func retrieveDbFromSqliteAll() []utils.JobPost {
 	var retrievedData []utils.JobPost
 	utils.DB.Table(*utils.TableName).Find(&retrievedData)
 	return retrievedData
 }
 
-func RetrieveDbFromSqliteSearch(searchTerm string) ([]utils.JobPost, error) {
+func retrieveDbFromSqliteSearch(searchTerm string) ([]utils.JobPost, error) {
 	var jobPosts []utils.JobPost
 
 	// Need a way to get the correct file path no matter the OS.
@@ -28,7 +28,8 @@ func RetrieveDbFromSqliteSearch(searchTerm string) ([]utils.JobPost, error) {
 
 	// Perform the search query
 	err := utils.DB.Table(*utils.TableName).Where(
-		`LOWER(job_id) LIKE ? 
+		// `LOWER(job_id) LIKE ?
+		`job_id LIKE ? 
 		OR LOWER(job_title) LIKE ? 
 		OR LOWER(description) LIKE ? 
 		OR LOWER(coding_language) LIKE ? 
@@ -38,7 +39,7 @@ func RetrieveDbFromSqliteSearch(searchTerm string) ([]utils.JobPost, error) {
 		OR LOWER(pay) LIKE ?
 		OR LOWER(work_location) LIKE ?
 		OR LOWER(links) LIKE ?
-		OR LOWER(appled_to_job) LIKE ?`,
+		OR LOWER(applied_to_job) LIKE ?`,
 		"%"+strings.ToLower(searchTerm)+"%",
 		"%"+strings.ToLower(searchTerm)+"%",
 		"%"+strings.ToLower(searchTerm)+"%",

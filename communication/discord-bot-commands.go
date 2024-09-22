@@ -10,6 +10,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
+// discordBotSlashCommandHelpMenu returns a help menu for the Discord bot.
 func discordBotSlashCommandHelpMenu() string {
 	helpMenu := []string{
 		"Commands:",
@@ -29,7 +30,7 @@ func discordBotSlashCommandHelpMenu() string {
 
 // sendAllJobPosts retrieves all job posts and sends them as a response.
 func sendAllJobPosts(session *discordgo.Session, channelID string) {
-	resultJobPosts := retrieve.RetrieveDbFromSqliteAll()
+	resultJobPosts := retrieve.RetrieveDbDataAll()
 	if len(resultJobPosts) == 0 {
 		session.ChannelMessageSend(channelID, "Sorry, no job posts available.")
 		return
@@ -40,7 +41,7 @@ func sendAllJobPosts(session *discordgo.Session, channelID string) {
 
 // sendRandomJobPost retrieves all job posts, selects a random one, and sends it as a response.
 func sendRandomJobPost(session *discordgo.Session, channelID string) {
-	resultJobPosts := retrieve.RetrieveDbFromSqliteAll()
+	resultJobPosts := retrieve.RetrieveDbDataAll()
 	if len(resultJobPosts) == 0 {
 		session.ChannelMessageSend(channelID, "Sorry, no job posts available.")
 		return
@@ -51,26 +52,16 @@ func sendRandomJobPost(session *discordgo.Session, channelID string) {
 
 // searchAndSendJobPosts searches for job posts based on the search term and sends the response.
 func searchAndSendJobPosts(session *discordgo.Session, channelID string, searchTerm string) {
-	resultJobPosts := retrieve.RetrieveDbFromSqliteAll()
-	var filteredJobPosts []utils.JobPost
-	for _, job := range resultJobPosts {
-		if strings.Contains(strings.ToLower(job.JobTitle), strings.ToLower(searchTerm)) ||
-			strings.Contains(strings.ToLower(job.Description), strings.ToLower(searchTerm)) ||
-			strings.Contains(strings.ToLower(strings.Join(job.CodingLanguage, " ")), strings.ToLower(searchTerm)) ||
-			strings.Contains(strings.ToLower(strings.Join(job.CodingFramework, " ")), strings.ToLower(searchTerm)) ||
-			strings.Contains(strings.ToLower(strings.Join(job.Database, " ")), strings.ToLower(searchTerm)) ||
-			strings.Contains(strings.ToLower(strings.Join(job.WorkLocation, " ")), strings.ToLower(searchTerm)) {
-			filteredJobPosts = append(filteredJobPosts, job)
-		}
-	}
-	if len(filteredJobPosts) == 0 {
+	resultJobPosts := retrieve.RetrieveDbDataSearch(searchTerm)
+	if len(resultJobPosts) == 0 {
 		session.ChannelMessageSend(channelID, "Sorry, no job posts found matching the search term.")
 		return
 	}
-	jobPostsResponse := utils.JobPostsToString(filteredJobPosts)
+	jobPostsResponse := utils.JobPostsToString(resultJobPosts)
 	session.ChannelMessageSend(channelID, jobPostsResponse)
 }
 
+// discordBotSlashCommands handles the Discord bot slash commands.
 func discordBotSlashCommands(session *discordgo.Session, message *discordgo.MessageCreate) {
 	appliedRegex := regexp.MustCompile(`^!applied:[a-zA-Z0-9]{20}$`)
 	jobSearchRegex := regexp.MustCompile(`^!job(s)?:(some|random|search )`)

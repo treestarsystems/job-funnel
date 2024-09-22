@@ -28,7 +28,7 @@ type JobPost struct {
 	CompanyName     string                      `bson:"company_name" json:"companyName" binding:"required"`
 	Pay             datatypes.JSONSlice[string] `bson:"pay" json:"pay" binding:"required"`
 	WorkLocation    datatypes.JSONSlice[string] `bson:"work_location" json:"workLocation" binding:"required"`
-	Links           datatypes.JSONSlice[string] `bson:"link" json:"link" binding:"required"`
+	Links           datatypes.JSONSlice[string] `bson:"links" json:"links" binding:"required"`
 	AppliedToJob    datatypes.JSONSlice[string] `bson:"applied_to_job" json:"appliedToJob" binding:"required"`
 	CreatedAt       time.Time                   `bson:"created_at" json:"createdAt" binding:"required"`
 	UpdatedAt       time.Time                   `bson:"updated_at" json:"updatedAt" binding:"required"`

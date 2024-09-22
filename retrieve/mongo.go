@@ -9,19 +9,25 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+// TODO: Need to review this function to ensure it is working as expected. I think it can be improved.
 // SearchJobPostsInMongoDb searches for job posts in MongoDB based on a search term.
-func SearchJobPostsInMongoDb(searchTerm string) ([]utils.JobPost, error) {
+func retrieveDbFromMongoDbSearch(searchTerm string) ([]utils.JobPost, error) {
 	var jobPosts []utils.JobPost
 
 	// Define the filter for the search query
 	filter := bson.M{
 		"$or": []bson.M{
+			{"job_id": bson.M{"$regex": searchTerm}},
 			{"job_title": bson.M{"$regex": searchTerm, "$options": "i"}},
 			{"description": bson.M{"$regex": searchTerm, "$options": "i"}},
 			{"coding_language": bson.M{"$regex": searchTerm, "$options": "i"}},
 			{"coding_framework": bson.M{"$regex": searchTerm, "$options": "i"}},
 			{"database": bson.M{"$regex": searchTerm, "$options": "i"}},
+			{"company_name": bson.M{"$regex": searchTerm, "$options": "i"}},
+			{"pay": bson.M{"$regex": searchTerm, "$options": "i"}},
 			{"work_location": bson.M{"$regex": searchTerm, "$options": "i"}},
+			{"links": bson.M{"$regex": searchTerm, "$options": "i"}},
+			{"applied_to_job": bson.M{"$regex": searchTerm, "$options": "i"}},
 		},
 	}
 
