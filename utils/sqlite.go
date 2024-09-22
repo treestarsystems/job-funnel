@@ -11,15 +11,15 @@ import (
 // SQLite variables
 var DB *gorm.DB
 var TableName *string
-var SqliteDbName *string
+var SQLiteDbName *string
 
 func LoadDbConnectToSqlite() {
 	tableName := os.Getenv("DB_TABLE_NAME")
 	sqliteDbName := os.Getenv("DB_SQLITE_FILENAME")
 	TableName = &tableName
-	SqliteDbName = &sqliteDbName
+	SQLiteDbName = &sqliteDbName
 
-	db, err := gorm.Open(sqlite.Open(*SqliteDbName), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(*SQLiteDbName), &gorm.Config{})
 	if err != nil {
 		log.Printf("error - SQLite: Unable to establish database connection: %s\n", err)
 	}
