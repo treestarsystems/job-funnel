@@ -15,7 +15,7 @@ An aggregator used to collect job postings and funnel them into communication ch
 This will build the binary in the destination directory.
 ```bash
 git clone https://github.com/treestarsystems/job-funnel.git
-cd ./job-funnel
+cd ./job-funnel/
 go build -o <destination dire>job-funnel
 ```
 
