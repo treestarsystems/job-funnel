@@ -42,12 +42,12 @@ COMMUNICATION_DISCORD_BOT_TOKEN="<token>"
 
 Without -e flag, the program will use the .env file in the same directory
 ```bash
-./<destination>/job-funnel
+./job-funnel
 ```
 
 With -e flag, the program will use the .env file at the specified path
 ```bash
-./<destination>/job-funnel -e=/path/to/.env
+./job-funnel -e=/path/to/.env
 ```
 
 ## Progress
