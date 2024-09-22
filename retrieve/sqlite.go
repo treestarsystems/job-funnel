@@ -22,7 +22,7 @@ func retrieveDbFromSqliteSearch(searchTerm string) ([]utils.JobPost, error) {
 	// This will rerun the connection to the database if the file does not exist.
 	fileName := fmt.Sprintf("./%v", os.Getenv("DB_SQLITE_FILENAME"))
 	if _, err := os.Stat(fileName); errors.Is(err, os.ErrNotExist) {
-		log.Println("info - SQLite: Database file does not exist, recreating...")
+		log.Printf("info - SQLite: Database file does not exist, recreating...\n")
 		// LoadDbConnectToSqlite()
 	}
 

@@ -19,12 +19,12 @@ func LoadDbConnectToSqlite() {
 
 	db, err := gorm.Open(sqlite.Open(*utils.SqliteDbName), &gorm.Config{})
 	if err != nil {
-		log.Println("error - SQLite: Unable to establish database connection: %s", err)
+		log.Printf("error - SQLite: Unable to establish database connection: %s\n", err)
 	}
 	// Migrate the schema/Create the table
 	err = db.Table(*utils.TableName).AutoMigrate(&utils.LoadDbInsertGorm{})
 	if err != nil {
-		log.Println("error - SQLite: Unable to migrate the schema: %s", err)
+		log.Printf("error - SQLite: Unable to migrate the schema: %s\n", err)
 	}
 	utils.DB = db
 }
@@ -34,7 +34,7 @@ func loadDbDataToSqlite(data utils.JobPost, jobId string) {
 	// This will rerun the connection to the database if the file does not exist.
 	fileName := fmt.Sprintf("./%v", os.Getenv("DB_SQLITE_FILENAME"))
 	if _, err := os.Stat(fileName); errors.Is(err, os.ErrNotExist) {
-		log.Println("info - SQLite: Database file does not exist, recreating...")
+		log.Printf("info - SQLite: Database file does not exist, recreating...\n")
 		LoadDbConnectToSqlite()
 	}
 

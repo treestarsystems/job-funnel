@@ -48,13 +48,13 @@ func InitDiscordBot() {
 	discordBotReadConfig()
 	discordBotSession, err := discordgo.New("Bot " + discordBotToken)
 	if err != nil {
-		log.Println("error - Starting Communication:Discord Bot - %v", err)
+		log.Printf("error - Starting Communication:Discord Bot - %v\n", err)
 		return
 	}
 
 	discordBotUser, err := discordBotSession.User("@me")
 	if err != nil {
-		log.Println("error - Getting Session User Communication:Discord Bot - %v", err)
+		log.Printf("error - Getting Session User Communication:Discord Bot - %v\n", err)
 		return
 	}
 
@@ -63,9 +63,9 @@ func InitDiscordBot() {
 
 	err = discordBotSession.Open()
 	if err != nil {
-		log.Println("error - Creating Session Communication:Discord Bot - %v", err)
+		log.Printf("error - Creating Session Communication:Discord Bot - %v\n", err)
 		return
 	}
 
-	log.Println("Communication:Discord Bot - Online")
+	log.Printf("Communication:Discord Bot - Online\n")
 }

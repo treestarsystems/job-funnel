@@ -54,7 +54,7 @@ func loadDbDataToMongoDb(data utils.JobPost, jobId string) error {
 
 	_, err := utils.CollectionMongo.UpdateOne(utils.CtxMongo, filter, update, opts)
 	if err != nil {
-		log.Println("error - MongoDB: Database write failure: %s", err)
+		log.Printf("error - MongoDB: Database write failure: %s\n", err)
 		return err
 	}
 	return nil

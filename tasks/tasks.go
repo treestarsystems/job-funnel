@@ -1,6 +1,7 @@
 package tasks
 
 import (
+	"fmt"
 	"job-funnel/load"
 	"job-funnel/transform"
 	"log"
@@ -11,10 +12,11 @@ func InitTasks() {
 }
 
 func Weworkremotely_comRss() {
-	log.Println("Task: Weworkremotely.com - Executing RSS Feed Job.")
+	log.Printf("Task: Weworkremotely.com - Executing RSS Feed Job.")
 	jobs, err := transform.Weworkremotely_comCreateJobPostsRss("https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss")
 	if err != nil {
-		log.Println(err)
+		errorMessage := fmt.Sprintf("error - Error processing Rss feed: %s\n", err)
+		log.Print(errorMessage)
 	}
 	for _, job := range jobs {
 		load.LoadDbData(job)
