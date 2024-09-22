@@ -18,7 +18,8 @@ This will build the binary in the destination directory. I suggest you run this 
 ```bash
 git clone https://github.com/treestarsystems/job-funnel.git
 cd ./job-funnel/
-go build -o <destination dire>job-funnel
+go build -o <destination dir>job-funnel
+cd <destination dir>
 ```
 To run this app it requires an .env file in the same directory or you must specify a path (Ex: -e=/path/to/.env) to a .env file. 
 
