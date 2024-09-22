@@ -48,6 +48,9 @@ With -e flag, the program will use the .env file at the specified path
 ./<destination>/job-funnel -e=/path/to/.env
 ```
 
+## Progress
+#### *Green = Completed
+
 <p align="center">
 <img src="./job-search.drawio.svg" width="512"/>
 </p>
