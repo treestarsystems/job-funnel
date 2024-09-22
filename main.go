@@ -4,6 +4,7 @@ import (
 	"job-funnel/api"
 	"job-funnel/communication"
 	"job-funnel/cron"
+	"job-funnel/tasks"
 	"job-funnel/utils"
 	"log"
 	"os"
@@ -33,7 +34,7 @@ func main() {
 	}
 
 	// Initial run of tasks on startup as a non-blocking goroutine
-	// go tasks.InitTasks()
+	go tasks.InitTasks()
 
 	// Initialize cron jobs
 	cron.InitCron()
