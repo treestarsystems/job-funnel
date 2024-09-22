@@ -22,7 +22,7 @@ func LoadDbConnectToMongoDb() {
 	// This reduces the codes resilience to failure. So we may want to remove this.
 	err = ClientMongo.Ping(utils.CtxMongo, nil)
 	if err != nil {
-		log.Fatal("error - MongoDB: Unable to ping database instance: %s", err)
+		log.Fatalf("error - MongoDB: Unable to ping database instance: %s", err)
 	}
 
 	utils.CollectionMongo = ClientMongo.Database(mongoDbName).Collection(mongoDbCollectionName)
@@ -54,7 +54,7 @@ func loadDbDataToMongoDb(data utils.JobPost, jobId string) error {
 
 	_, err := utils.CollectionMongo.UpdateOne(utils.CtxMongo, filter, update, opts)
 	if err != nil {
-		log.Printf("error - MongoDB: Database write failure: %s", err)
+		log.Println("error - MongoDB: Database write failure: %s", err)
 		return err
 	}
 	return nil

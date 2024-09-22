@@ -19,12 +19,12 @@ func LoadDbConnectToSqlite() {
 
 	db, err := gorm.Open(sqlite.Open(*utils.SqliteDbName), &gorm.Config{})
 	if err != nil {
-		log.Printf("error - SQLite: Unable to establish database connection: %s", err)
+		log.Println("error - SQLite: Unable to establish database connection: %s", err)
 	}
 	// Migrate the schema/Create the table
 	err = db.Table(*utils.TableName).AutoMigrate(&utils.LoadDbInsertGorm{})
 	if err != nil {
-		log.Printf("error - SQLite: Unable to migrate the schema: %s", err)
+		log.Println("error - SQLite: Unable to migrate the schema: %s", err)
 	}
 	utils.DB = db
 }

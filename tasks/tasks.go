@@ -1,9 +1,9 @@
 package tasks
 
 import (
-	"fmt"
 	"job-funnel/load"
 	"job-funnel/transform"
+	"log"
 )
 
 func InitTasks() {
@@ -11,13 +11,13 @@ func InitTasks() {
 }
 
 func Weworkremotely_comRss() {
-	fmt.Println("Task: Weworkremotely.com - Executing RSS Feed Job.")
+	log.Println("Task: Weworkremotely.com - Executing RSS Feed Job.")
 	jobs, err := transform.Weworkremotely_comCreateJobPostsRss("https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss")
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	for _, job := range jobs {
 		load.LoadDbData(job)
 	}
-	fmt.Println("Task: Weworkremotely.com - Execution Complete!")
+	log.Println("Task: Weworkremotely.com - Execution Complete!")
 }

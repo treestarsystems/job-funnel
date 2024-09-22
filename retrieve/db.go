@@ -2,6 +2,7 @@ package retrieve
 
 import (
 	"job-funnel/utils"
+	"log"
 	"os"
 )
 
@@ -27,6 +28,7 @@ func RetrieveDbDataSearch(searchTerm string) []utils.JobPost {
 	if os.Getenv("DB_MONGODB_ENABLE") == "true" {
 		resultJobPosts, err := retrieveDbFromMongoDbSearch(searchTerm)
 		if err != nil {
+			log.Print(err)
 			return []utils.JobPost{}
 		}
 		return resultJobPosts
@@ -35,6 +37,7 @@ func RetrieveDbDataSearch(searchTerm string) []utils.JobPost {
 	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
 		resultJobPosts, err := retrieveDbFromSqliteSearch(searchTerm)
 		if err != nil {
+			log.Print(err)
 			return []utils.JobPost{}
 		}
 		return resultJobPosts

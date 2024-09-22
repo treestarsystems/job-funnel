@@ -1,7 +1,7 @@
 package communication
 
 import (
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/bwmarrin/discordgo"
@@ -48,13 +48,13 @@ func InitDiscordBot() {
 	discordBotReadConfig()
 	discordBotSession, err := discordgo.New("Bot " + discordBotToken)
 	if err != nil {
-		fmt.Printf("error - Starting Communication:Discord Bot - %v", err)
+		log.Println("error - Starting Communication:Discord Bot - %v", err)
 		return
 	}
 
 	discordBotUser, err := discordBotSession.User("@me")
 	if err != nil {
-		fmt.Printf("error - Getting Session User Communication:Discord Bot - %v", err)
+		log.Println("error - Getting Session User Communication:Discord Bot - %v", err)
 		return
 	}
 
@@ -63,9 +63,9 @@ func InitDiscordBot() {
 
 	err = discordBotSession.Open()
 	if err != nil {
-		fmt.Printf("error - Creating Session Communication:Discord Bot - %v", err)
+		log.Println("error - Creating Session Communication:Discord Bot - %v", err)
 		return
 	}
 
-	fmt.Println("Communication:Discord Bot - Online")
+	log.Println("Communication:Discord Bot - Online")
 }

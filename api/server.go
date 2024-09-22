@@ -1,7 +1,7 @@
 package api
 
 import (
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -19,7 +19,7 @@ func StartServer() *gin.Engine {
 	// Pass routes to the router
 	// RoutesRecipe(router)
 
-	fmt.Printf("Starting server on port :%s\n", os.Getenv("PORT"))
+	log.Println("Starting server on port :%s\n", os.Getenv("PORT"))
 
 	router.Run()
 
