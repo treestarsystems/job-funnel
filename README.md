@@ -65,5 +65,5 @@ With -e flag, the program will use the .env file at the specified path
 
 
 <p align="center">
-<img src="./assets/readme/job-search.drawio.svg" width="512"/>
+<img src="./assets/readme/job-funnel-diagram.drawio.svg" width="512"/>
 </p>
