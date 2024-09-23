@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./job-funnel-logo.jpg" width="256"/>
+<img src="./assets/readme/job-funnel-logo.jpg" width="256"/>
 </p>
 
 # Job-Funnel
@@ -50,9 +50,17 @@ With -e flag, the program will use the .env file at the specified path
 ./job-funnel -e=/path/to/.env
 ```
 
+## Features
+<p align="center">
+<img src="./assets/readme/job-funnel-example-help.png" width="256"/>
+<img src="./assets/readme/job-funnel-example-random.png" width="256"/>
+<img src="./assets/readme/job-funnel-example-search.png" width="256"/>
+</p>
+
 ## Progress
 #### *Green = Completed
 
+
 <p align="center">
-<img src="./job-search.drawio.svg" width="512"/>
+<img src="./assets/readme/job-search.drawio.svg" width="512"/>
 </p>
