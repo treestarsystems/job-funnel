@@ -18,7 +18,6 @@ func RetrieveDbDataAll() []utils.JobPost {
 	}
 
 	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
-		log.Print("info - SQLite: Retrieving all job posts from SQLite database.")
 		return retrieveDbFromSqliteAll()
 	}
 	return []utils.JobPost{}
@@ -60,7 +59,6 @@ func RetrieveDbDataRandom() []utils.JobPost {
 	}
 
 	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
-		log.Print("info - SQLite: Retrieving random job post from SQLite database.")
 		resultJobPosts, err := retrieveDbFromSqliteRandom()
 		if err != nil {
 			log.Print(err)
