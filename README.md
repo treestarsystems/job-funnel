@@ -9,6 +9,7 @@ An aggregator used to collect job postings and funnel them into communication ch
 - [GoLang 1.23.1 or higher](https://go.dev/doc/install)
 - [MongoDB 7.0.14 or higher (optional)](https://www.mongodb.com/docs/manual/administration/install-community/)
 - [Discord Bot Token (optional)](https://discord.com/developers/applications)
+  - [How To: Discord Bot (optional)](https://discord.com/developers/applications)
 - Properly formatted .env file (see below)
 
 ## Installation
@@ -51,6 +52,8 @@ With -e flag, the program will use the .env file at the specified path
 ```
 
 ## Features
+### Discord Bot:
+* Direct Message
 <p align="center">
 <img src="./assets/readme/job-funnel-example-help.png" width="256"/>
 <img src="./assets/readme/job-funnel-example-random.png" width="256"/>
@@ -58,7 +61,7 @@ With -e flag, the program will use the .env file at the specified path
 </p>
 
 ## Progress
-#### *Green = Completed
+* *Green = Completed
 
 
 <p align="center">
